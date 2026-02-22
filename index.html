@@ -1,0 +1,2481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>AgentTrade Pro · AI Trading Simulator</title>
+<meta name="description" content="AgentTrade Pro — AI-powered trading simulator. Real-time signals, multi-agent analysis, live charts. 100% free demo — learn trading without risk.">
+<meta name="keywords" content="AI trading simulator,demo trading,crypto trading,stock simulator,buy sell signals,BTC,ETH,NVDA">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#1a1f2e">
+<meta property="og:title" content="AgentTrade Pro · AI Trading Simulator">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"AgentTrade Pro","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous">
+<style>
+/* ═══════════════════════════════════════
+   AGENTTRADE PRO v5 — NEUMORPHISM 2.0
+   Zero overflow · All features working
+═══════════════════════════════════════ */
+:root {
+  --bg:#1a1f2e; --bg2:#1e2436; --surf:#242b3d; --card:#2a3045; --card2:#2f3550;
+  --sd:#0f1219; --sl:#2d3555;
+  --no: 7px 7px 16px var(--sd), -7px -7px 16px var(--sl);
+  --ni: inset 5px 5px 11px var(--sd), inset -5px -5px 11px var(--sl);
+  --nf: 4px 4px 9px var(--sd), -4px -4px 9px var(--sl);
+  --ns: 2px 2px 6px var(--sd), -2px -2px 6px var(--sl);
+  --bdr:rgba(255,255,255,.055);
+  --buy:#00d68f; --buy2:#00b87a; --bs:rgba(0,214,143,.12);
+  --sell:#ff4d6d; --sell2:#e63659; --ss:rgba(255,77,109,.12);
+  --hold:#ffaa00; --hs:rgba(255,170,0,.12);
+  --acc:#5b8af5; --acc2:#7b6cf6; --as:rgba(91,138,245,.12);
+  --gold:#ffd166; --gs:rgba(255,209,102,.12);
+  --text:#e8edf8; --t2:#9ba8c0; --t3:#5e6a82;
+  --gb:0 0 22px rgba(0,214,143,.32); --gs2:0 0 22px rgba(255,77,109,.32);
+  --ga:0 0 22px rgba(91,138,245,.32);
+  --r:20px; --rm:14px; --rs:9px; --tr:.15s cubic-bezier(.4,0,.2,1);
+  --fh:'Syne',sans-serif; --fu:'Nunito',sans-serif; --fd:'Space Mono',monospace;
+  --hh:60px; --sb:240px;
+}
+body.light {
+  --bg:#e8ecf2; --bg2:#eef1f6; --surf:#f0f4fb; --card:#f4f7fd; --card2:#ebeff8;
+  --sd:#c5cdd8; --sl:#ffffff;
+  --no:7px 7px 16px #c5cdd8,-7px -7px 16px #ffffff;
+  --ni:inset 5px 5px 11px #c5cdd8,inset -5px -5px 11px #ffffff;
+  --nf:4px 4px 9px #c5cdd8,-4px -4px 9px #ffffff;
+  --ns:2px 2px 6px #c5cdd8,-2px -2px 6px #ffffff;
+  --bdr:rgba(0,0,0,.055);
+  --text:#1a2340; --t2:#4a5878; --t3:#8896b2;
+  --buy:#00a865; --sell:#e8335a; --acc:#3b72e8; --gold:#c4850a;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden;max-width:100vw}
+body{font-family:var(--fu);background:var(--bg);color:var(--text);min-height:100vh;
+  overflow-x:hidden;width:100%;max-width:100vw;line-height:1.6;transition:background .3s,color .3s}
+*:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
+a{text-decoration:none;color:inherit} button{font-family:var(--fu);cursor:pointer}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--t3);border-radius:4px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ICON FALLBACK — when FA doesn't load, show emoji */
+.ic::before{font-family:'Font Awesome 6 Free';font-weight:900}
+
+/* ═ TICKER ═ */
+.ticker{background:var(--surf);overflow:hidden;width:100%;max-width:100vw;
+  border-bottom:1px solid var(--bdr);box-shadow:var(--nf)}
+.ticker-track{display:flex;gap:2rem;animation:tick 32s linear infinite;
+  width:max-content;padding:.4rem 0}
+.ticker:hover .ticker-track{animation-play-state:paused}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ti{display:flex;align-items:center;gap:.3rem;font-family:var(--fd);
+  font-size:.68rem;white-space:nowrap;color:var(--t2)}
+.ti .s{color:var(--text);font-weight:700} .ti .u{color:var(--buy)} .ti .d{color:var(--sell)}
+.ti-dot{color:var(--t3);opacity:.4;padding:0 .15rem}
+
+/* ═ ANNOUNCE BAR ═ */
+.ann{background:var(--card2);display:flex;align-items:center;justify-content:center;
+  gap:.5rem;padding:.38rem .8rem;font-size:.7rem;font-weight:700;color:var(--gold);
+  overflow:hidden;width:100%;max-width:100vw;border-bottom:1px solid var(--bdr)}
+.ann .pdot{width:6px;height:6px;background:var(--buy);border-radius:50%;
+  animation:pulse 1.6s infinite;flex-shrink:0}
+.ann .atxt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:80vw}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.7}}
+
+/* ═ HEADER ═ */
+/* overflow:visible — CRITICAL: allows dropdown to render outside header bounds */
+.header{position:sticky;top:0;z-index:200;background:var(--surf);
+  height:var(--hh);width:100%;max-width:100vw;
+  overflow:visible;
+  display:flex;align-items:center;
+  padding:0 .75rem;gap:.5rem;
+  box-shadow:var(--nf);border-bottom:1px solid var(--bdr)}
+/* Prevent inner elements from causing horizontal scroll */
+.header>.logo,.header>.dnav,.header>.hsp,.header>.hsearch{overflow:hidden;min-width:0}
+
+.logo{display:flex;align-items:center;gap:.4rem;flex-shrink:0;
+  font-family:var(--fh);font-weight:800;font-size:1.15rem;line-height:1}
+.logo-mark{width:32px;height:32px;background:linear-gradient(135deg,var(--acc),var(--buy));
+  border-radius:9px;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:.9rem;box-shadow:var(--ga);flex-shrink:0}
+.logo-name{background:linear-gradient(135deg,var(--acc),var(--buy));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo-badge{font-size:.48rem;font-weight:800;letter-spacing:.5px;color:var(--gold);
+  background:var(--gs);border:1px solid rgba(255,209,102,.2);
+  padding:.08rem .35rem;border-radius:5px;-webkit-text-fill-color:var(--gold)}
+
+/* Desktop nav — ONLY on wide screens */
+/* FIX A: nav does NOT grow — it takes only what it needs, search never pushed under */
+.dnav{display:none;align-items:center;gap:0;flex-shrink:0}
+@media(min-width:960px){.dnav{display:flex}}
+.dnav a{display:flex;align-items:center;gap:.28rem;font-size:.76rem;font-weight:700;
+  color:var(--t2);padding:.36rem .58rem;border-radius:28px;
+  transition:var(--tr);white-space:nowrap;border:none;background:transparent;cursor:pointer}
+.dnav a:hover{background:var(--card2);color:var(--text)}
+.dnav a.active{background:var(--card2);color:var(--acc);box-shadow:var(--ni)}
+/* On mid-size screens hide text, keep icons only — prevent any overlap */
+@media(min-width:960px) and (max-width:1180px){
+  .dnav a .ntxt{display:none}
+  .dnav a{padding:.36rem .48rem;font-size:.88rem}
+}
+
+/* Spacer: flexible gap between nav and search */
+.hsp{flex:1;min-width:.5rem}
+@media(max-width:959px){.hsp{display:none}}
+
+/* Search — desktop only, fixed width, never overlaps */
+.hsearch{display:none;position:relative;width:160px;flex-shrink:0}
+@media(min-width:960px){.hsearch{display:block}}
+@media(min-width:1280px){.hsearch{width:190px}}
+.hsearch input{width:100%;background:var(--card2);border:1px solid var(--bdr);
+  border-radius:30px;padding:.42rem .85rem .42rem 1.9rem;font-size:.78rem;
+  font-family:var(--fu);color:var(--text);box-shadow:var(--ni);outline:none;transition:var(--tr)}
+.hsearch input:focus{border-color:var(--acc)}
+.hsearch input::placeholder{color:var(--t3)}
+.hsearch .si{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);
+  color:var(--t3);font-size:.72rem;pointer-events:none}
+
+/* Header action buttons */
+.hacts{display:flex;align-items:center;gap:.3rem;flex-shrink:0;margin-left:auto}
+@media(min-width:960px){.hacts{margin-left:0}}
+
+.ibtn{width:35px;height:35px;border-radius:10px;background:var(--card2);
+  border:none;color:var(--t2);display:flex;align-items:center;justify-content:center;
+  font-size:.88rem;transition:var(--tr);position:relative;flex-shrink:0;box-shadow:var(--ns)}
+.ibtn:hover{color:var(--acc);box-shadow:var(--ni);background:var(--card)}
+.ibtn:active{transform:scale(.93);box-shadow:var(--ni)}
+.ibtn .ndot{position:absolute;top:4px;right:4px;width:6px;height:6px;
+  background:var(--sell);border-radius:50%;border:1.5px solid var(--surf)}
+
+/* Hide notif on very small phones */
+@media(max-width:480px){#notifBtn{display:none}}
+/* Hide theme btn on tiny phones */
+@media(max-width:380px){#themeBtn{display:none}}
+
+.hamburger{display:flex}
+@media(min-width:960px){.hamburger{display:none}}
+
+/* ═ LAYOUT ═ */
+.layout{display:flex;width:100%;min-height:calc(100vh - var(--hh));overflow-x:hidden}
+
+/* ═ SIDEBAR ═ */
+.sidebar{width:var(--sb);flex-shrink:0;background:var(--surf);
+  display:flex;flex-direction:column;gap:.15rem;
+  padding:.85rem .65rem;position:sticky;top:var(--hh);
+  height:calc(100vh - var(--hh));overflow-y:auto;scrollbar-width:none;
+  transition:transform .28s cubic-bezier(.4,0,.2,1);border-right:1px solid var(--bdr)}
+.sidebar::-webkit-scrollbar{display:none}
+@media(max-width:959px){
+  .sidebar{position:fixed;top:var(--hh);left:0;z-index:190;
+    transform:translateX(-110%);border-radius:0 var(--r) var(--r) 0;
+    height:calc(100vh - var(--hh));box-shadow:var(--no)}
+  .sidebar.open{transform:translateX(0)}
+}
+.sbo{display:none;position:fixed;inset:0;top:var(--hh);
+  background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:189}
+.sbo.show{display:block}
+
+.sblbl{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:1.8px;
+  color:var(--t3);padding:.5rem .65rem .2rem;margin-top:.35rem}
+.sblink{display:flex;align-items:center;gap:.55rem;padding:.58rem .7rem;
+  border-radius:12px;color:var(--t2);font-weight:700;font-size:.82rem;
+  border:none;background:transparent;width:100%;text-align:left;
+  transition:var(--tr);cursor:pointer;white-space:nowrap}
+.sblink .sico{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;
+  justify-content:center;font-size:.78rem;flex-shrink:0;
+  background:var(--card2);color:var(--t3);box-shadow:var(--ns);transition:var(--tr)}
+.sblink:hover{background:var(--card2);color:var(--text);box-shadow:var(--ni)}
+.sblink:hover .sico{background:var(--as);color:var(--acc)}
+.sblink.active{background:var(--card2);color:var(--acc);box-shadow:var(--ni)}
+.sblink.active .sico{background:var(--acc);color:#fff;box-shadow:var(--ga)}
+.sbbadge{margin-left:auto;font-size:.55rem;font-weight:800;background:var(--bs);
+  color:var(--buy);padding:.08rem .4rem;border-radius:20px}
+
+.sbptf{margin-top:auto;background:var(--card2);border-radius:16px;
+  padding:.85rem .9rem;box-shadow:var(--ni);border:1px solid var(--bdr)}
+.sbptf-lbl{font-size:.58rem;font-weight:800;text-transform:uppercase;
+  letter-spacing:.7px;color:var(--t3);margin-bottom:.2rem}
+.sbptf-val{font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--buy)}
+.sbptf-chg{font-size:.68rem;margin-top:.08rem}
+
+/* ═ MAIN ═ */
+.main{flex:1;min-width:0;max-width:100%;overflow-x:hidden;
+  padding:clamp(.8rem,2.5vw,1.5rem)}
+@media(max-width:959px){.main{padding-bottom:80px}}
+
+/* ═ PAGES ═ */
+.page{display:none}
+.page.active{display:block;animation:fadeUp .22s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═ PAGE HEADER ═ */
+.pghd{display:flex;align-items:flex-start;justify-content:space-between;
+  gap:.8rem;margin-bottom:1.1rem;flex-wrap:wrap}
+.pgtitle{font-family:var(--fh);font-size:clamp(1.4rem,4vw,1.9rem);
+  font-weight:800;line-height:1.2}
+.pgsub{font-size:.76rem;color:var(--t3);margin-top:.18rem}
+.lchip{color:var(--buy);font-weight:700}
+
+/* ═ BUTTONS ═ */
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.58rem 1.2rem;
+  border-radius:30px;border:none;font-family:var(--fu);font-weight:800;
+  font-size:.82rem;cursor:pointer;transition:var(--tr);white-space:nowrap;
+  background:var(--card2);color:var(--text);box-shadow:var(--nf)}
+.btn:hover:not(:disabled){box-shadow:var(--ni);transform:translateY(-1px)}
+.btn:active:not(:disabled){transform:scale(.96);box-shadow:var(--ni)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-pri{background:var(--acc);color:#fff;box-shadow:var(--ga)}
+.btn-pri:hover:not(:disabled){background:var(--acc2)}
+.btn-buy{background:var(--buy);color:#001e0d;box-shadow:var(--gb)}
+.btn-buy:hover:not(:disabled){background:var(--buy2)}
+.btn-sell{background:var(--sell);color:#fff;box-shadow:var(--gs2)}
+.btn-sell:hover:not(:disabled){background:var(--sell2)}
+.btn-ghost{background:transparent;box-shadow:none;border:1.5px solid var(--t3);color:var(--t2)}
+.btn-ghost:hover:not(:disabled){border-color:var(--acc);color:var(--acc);background:var(--as)}
+.btn-sm{padding:.32rem .82rem;font-size:.72rem;border-radius:22px}
+.btn-block{width:100%;justify-content:center;border-radius:13px}
+
+/* ═ CARD ═ */
+.card{background:var(--card);border-radius:var(--r);padding:1.2rem;
+  box-shadow:var(--no);border:1px solid var(--bdr);position:relative;overflow:hidden}
+.card-hd{display:flex;align-items:center;gap:.45rem;margin-bottom:.9rem;
+  font-family:var(--fh);font-size:.9rem;font-weight:800}
+.chico{width:26px;height:26px;border-radius:7px;background:var(--as);color:var(--acc);
+  display:flex;align-items:center;justify-content:center;font-size:.74rem;box-shadow:var(--ni)}
+
+/* ═ MARKET ROW ═ */
+.mrow{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;margin-bottom:.85rem}
+@media(max-width:600px){.mrow{grid-template-columns:repeat(2,1fr)}}
+.mcard{background:var(--card);border-radius:var(--rm);padding:.75rem .85rem;
+  box-shadow:var(--no);border:1px solid var(--bdr);transition:var(--tr)}
+.mcard:hover{box-shadow:var(--ni);transform:translateY(-2px)}
+.mlbl{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;
+  color:var(--t3);margin-bottom:.25rem}
+.mval{font-family:var(--fd);font-size:.92rem;font-weight:700}
+.mchg{font-family:var(--fd);font-size:.68rem;font-weight:700;margin-top:.12rem}
+.pos{color:var(--buy)} .neg{color:var(--sell)}
+
+/* ═ STAT CARDS ═ */
+.srow{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;margin-bottom:.85rem}
+@media(max-width:600px){.srow{grid-template-columns:repeat(2,1fr)}}
+.scard{background:var(--card);border-radius:var(--rm);padding:.9rem;
+  display:flex;align-items:center;justify-content:space-between;gap:.55rem;
+  box-shadow:var(--no);border:1px solid var(--bdr);transition:var(--tr)}
+.scard:hover{box-shadow:var(--ni);transform:translateY(-2px)}
+.slbl{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;
+  color:var(--t3);margin-bottom:.2rem}
+.sval{font-family:var(--fd);font-size:clamp(1.1rem,3vw,1.5rem);font-weight:700}
+.sico{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;
+  justify-content:center;font-size:1rem;box-shadow:var(--ni);flex-shrink:0}
+.ia{background:var(--as);color:var(--acc)} .ib{background:var(--bs);color:var(--buy)}
+.ig{background:var(--gs);color:var(--gold)} .ip{background:var(--as);color:var(--acc2)}
+
+/* ═ DASHBOARD GRID ═ */
+.dgrid{display:grid;gap:.85rem;grid-template-columns:1fr}
+@media(min-width:1100px){.dgrid{grid-template-columns:1fr 320px}}
+.gfull{grid-column:1/-1}
+
+/* ═ CHART CARD ═ */
+.chart-card{background:var(--card);border-radius:var(--r);overflow:hidden;
+  box-shadow:var(--no);border:1px solid var(--bdr)}
+.chart-top{background:var(--card2);padding:.75rem 1rem;display:flex;
+  align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+  border-bottom:1px solid var(--bdr)}
+.carow{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.casel{font-family:var(--fh);font-size:1rem;font-weight:800;color:var(--text);
+  background:var(--card);border:1px solid var(--bdr);border-radius:25px;
+  padding:.25rem .75rem;cursor:pointer;box-shadow:var(--ns);outline:none;transition:var(--tr)}
+.casel:focus{border-color:var(--acc)}
+.cprice{font-family:var(--fd);font-size:1.2rem;font-weight:700}
+.cchg{font-family:var(--fd);font-size:.72rem;font-weight:700;
+  padding:.18rem .6rem;border-radius:16px}
+.cchg.up{background:var(--bs);color:var(--buy)} .cchg.dn{background:var(--ss);color:var(--sell)}
+
+.tfbar{display:flex;align-items:center;gap:.15rem;flex-wrap:wrap;
+  padding:.5rem .85rem;background:var(--bg2);border-bottom:1px solid var(--bdr)}
+.tflbl{font-size:.58rem;font-weight:800;color:var(--t3);text-transform:uppercase;
+  letter-spacing:.5px;margin-right:.15rem;white-space:nowrap}
+.tfb{padding:.22rem .5rem;border-radius:6px;border:none;background:transparent;
+  color:var(--t3);font-family:var(--fd);font-size:.62rem;font-weight:700;cursor:pointer;transition:var(--tr)}
+.tfb:hover{background:var(--card2);color:var(--t2)}
+.tfb.active{background:var(--acc);color:#fff}
+.tfsep{width:1px;height:12px;background:var(--bdr);margin:0 .18rem;flex-shrink:0}
+
+.chart-body{padding:.75rem}
+#mainChart{width:100%!important;height:185px!important;display:block;border-radius:8px}
+
+/* ═ TRADE PANEL ═ */
+.tpanel{background:var(--card);border-radius:var(--r);padding:1.1rem;
+  box-shadow:var(--no);border:1px solid var(--bdr)}
+.tmode{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;
+  background:var(--bg2);border-radius:11px;padding:.22rem;margin-bottom:1rem;box-shadow:var(--ni)}
+.tmtab{padding:.6rem;border-radius:9px;background:transparent;
+  color:var(--t3);font-weight:800;font-size:.82rem;border:none;cursor:pointer;
+  transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:.3rem}
+.tmtab.buy.active{background:var(--buy);color:#001e0d;box-shadow:var(--gb)}
+.tmtab.sell.active{background:var(--sell);color:#fff;box-shadow:var(--gs2)}
+.tfield{margin-bottom:.75rem}
+.tlbl{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;
+  color:var(--t3);margin-bottom:.3rem;display:flex;justify-content:space-between;align-items:center}
+.tlbl span{text-transform:none;color:var(--buy);font-family:var(--fd);font-size:.7rem}
+.tinp{width:100%;background:var(--bg2);border:1px solid var(--bdr);
+  border-radius:10px;padding:.62rem .85rem;color:var(--text);
+  font-family:var(--fd);font-size:.84rem;font-weight:700;
+  box-shadow:var(--ni);outline:none;transition:var(--tr)}
+.tinp:focus{border-color:var(--acc);box-shadow:var(--ni),0 0 0 2px var(--as)}
+select.tinp{cursor:pointer}
+.tpresets{display:flex;gap:.3rem;margin-top:.38rem;flex-wrap:wrap}
+.preset{padding:.24rem .68rem;background:var(--card2);border:1px solid var(--bdr);
+  border-radius:7px;color:var(--t2);font-size:.66rem;font-weight:800;
+  font-family:var(--fd);cursor:pointer;transition:var(--tr)}
+.preset:hover{border-color:var(--acc);color:var(--acc)}
+.preset.sel{background:var(--acc);color:#fff;border-color:var(--acc)}
+
+.tsum{background:var(--bg2);border:1px solid var(--bdr);border-radius:11px;
+  padding:.75rem;margin:.75rem 0;box-shadow:var(--ni)}
+.tsrow{display:flex;justify-content:space-between;font-size:.75rem;
+  margin-bottom:.3rem;color:var(--t2)}
+.tsrow:last-child{margin-bottom:0;color:var(--text);font-weight:800;
+  border-top:1px solid var(--bdr);padding-top:.38rem;margin-top:.28rem}
+.tsrow .v{font-family:var(--fd);color:var(--text)}
+.execbtn{width:100%;padding:.85rem;border-radius:12px;border:none;
+  font-family:var(--fu);font-weight:800;font-size:.9rem;cursor:pointer;
+  transition:var(--tr);display:flex;align-items:center;justify-content:center;
+  gap:.45rem;background:var(--buy);color:#001e0d;box-shadow:var(--gb)}
+.execbtn.sell{background:var(--sell);color:#fff;box-shadow:var(--gs2)}
+.execbtn:hover{transform:translateY(-1px);filter:brightness(1.07)}
+.execbtn:active{transform:scale(.97)}
+.bhint{background:var(--gs);border:1px solid rgba(255,209,102,.18);
+  border-radius:10px;padding:.58rem .7rem;font-size:.72rem;color:var(--gold);
+  margin-top:.65rem;display:flex;gap:.38rem;align-items:flex-start}
+
+/* ═ AGENTS ═ */
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.75rem}
+.acard{background:var(--card2);border-radius:16px;padding:.9rem .7rem;
+  text-align:center;transition:var(--tr);position:relative;overflow:hidden;
+  border:1px solid var(--bdr);box-shadow:var(--nf);cursor:pointer}
+.acard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0}
+.buy-a::before{background:linear-gradient(90deg,var(--buy),#40ffb8)}
+.sell-a::before{background:linear-gradient(90deg,var(--sell),#ff8fa8)}
+.hold-a::before{background:linear-gradient(90deg,var(--hold),#ffd580)}
+.acard:hover{transform:translateY(-3px);box-shadow:var(--no);border-color:var(--acc)}
+.aav{width:44px;height:44px;border-radius:50%;background:var(--card);
+  display:flex;align-items:center;justify-content:center;margin:0 auto .55rem;
+  font-size:1rem;color:var(--acc);box-shadow:var(--ni)}
+.aname{font-weight:800;font-size:.74rem;margin-bottom:.18rem}
+.aasset{font-family:var(--fd);font-size:.88rem;font-weight:700;margin-bottom:.22rem}
+.asig{display:inline-block;padding:.15rem .6rem;border-radius:16px;
+  font-size:.64rem;font-weight:800;margin-bottom:.22rem}
+.sb{background:var(--bs);color:var(--buy)} .ss{background:var(--ss);color:var(--sell)}
+.sh{background:var(--hs);color:var(--hold)}
+.aconf{font-size:.62rem;color:var(--t3);font-family:var(--fd)}
+.abar{height:3px;background:var(--bg2);border-radius:3px;margin-top:.35rem;overflow:hidden}
+.abar-f{height:100%;border-radius:3px}
+
+/* ═ SIGNALS TABLE ═ */
+.sigwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.sigtbl{width:100%;border-collapse:collapse;min-width:500px}
+.sigtbl th{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.9px;
+  color:var(--t3);padding:.58rem .75rem;text-align:left;
+  border-bottom:1px solid var(--bdr);background:var(--bg2);white-space:nowrap}
+.sigtbl td{padding:.72rem .75rem;border-bottom:1px solid var(--bdr);
+  font-size:.8rem;vertical-align:middle}
+.sigtbl tbody tr:hover td{background:var(--card2)}
+.sigtbl tr:last-child td{border-bottom:none}
+.acell{display:flex;align-items:center;gap:.45rem;font-weight:800}
+.aico{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:.66rem;font-weight:800;flex-shrink:0;box-shadow:var(--ni)}
+.sigbadge{padding:.18rem .65rem;border-radius:16px;font-size:.68rem;font-weight:800}
+.rkbadge{padding:.15rem .55rem;border-radius:16px;font-size:.6rem;font-weight:700}
+.rlo{background:var(--bs);color:var(--buy)} .rmd{background:var(--hs);color:var(--hold)}
+.rhi{background:var(--ss);color:var(--sell)}
+.cbar{width:60px;height:4px;background:var(--bg2);border-radius:4px;overflow:hidden;
+  display:inline-block;vertical-align:middle}
+.cfill{height:100%;border-radius:4px}
+.actbs{display:flex;gap:.28rem}
+
+/* ═ GAUGE ═ */
+.gssvg{width:130px;height:72px;margin:0 auto;display:block}
+.gbig{text-align:center;font-family:var(--fd);font-size:1.1rem;font-weight:700;margin-top:.2rem}
+.gsub{text-align:center;font-size:.62rem;color:var(--t3);margin-top:.06rem}
+
+/* ═ WATCHLIST ═ */
+.wscroll{display:flex;gap:.55rem;overflow-x:auto;padding-bottom:.25rem;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.wscroll::-webkit-scrollbar{display:none}
+.wchip{flex-shrink:0;background:var(--card2);border:1px solid var(--bdr);
+  border-radius:11px;padding:.58rem .75rem;min-width:88px;cursor:pointer;
+  transition:var(--tr);box-shadow:var(--ns)}
+.wchip:hover{transform:translateY(-2px);box-shadow:var(--no);border-color:var(--acc)}
+.wsym{font-weight:800;font-size:.8rem;margin-bottom:.12rem}
+.wpr{font-family:var(--fd);font-size:.72rem;margin-bottom:.08rem}
+.wch{font-family:var(--fd);font-size:.66rem;font-weight:700}
+
+/* ═ TRADE LOG ═ */
+.tlitem{display:flex;align-items:center;justify-content:space-between;
+  padding:.58rem 0;border-bottom:1px solid var(--bdr);font-size:.78rem;gap:.45rem}
+.tlitem:last-child{border-bottom:none}
+.tla{font-weight:800;font-size:.8rem} .tlt{color:var(--t3);font-size:.62rem;font-family:var(--fd);margin-top:.06rem}
+
+/* ═ POSITIONS TABLE ═ */
+.ptbl{width:100%;border-collapse:collapse}
+.ptbl th{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.7px;
+  color:var(--t3);padding:.35rem .55rem;text-align:left;border-bottom:1px solid var(--bdr)}
+.ptbl td{padding:.58rem .55rem;border-bottom:1px solid var(--bdr);
+  font-size:.76rem;font-family:var(--fd)}
+.ptbl tr:last-child td{border-bottom:none}
+.ptbl tbody tr:hover td{background:var(--card2)}
+
+/* ═ ACTIVITY FEED ═ */
+.aitem{display:flex;align-items:center;gap:.55rem;
+  padding:.5rem 0;border-bottom:1px solid var(--bdr);font-size:.76rem}
+.aitem:last-child{border-bottom:none}
+.adot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.atime{color:var(--t3);font-size:.6rem;font-family:var(--fd);margin-left:auto;white-space:nowrap}
+
+/* ═ BEGINNER BANNER ═ */
+.begbanner{background:linear-gradient(135deg,var(--as),var(--bs));border:1px solid var(--acc);
+  border-radius:14px;padding:.85rem .95rem;margin-bottom:.85rem;
+  display:flex;align-items:flex-start;gap:.65rem;font-size:.78rem;color:var(--t2)}
+.bbico{font-size:1.25rem;flex-shrink:0}
+.begbanner strong{color:var(--acc)}
+.dmbtn{color:var(--buy);font-weight:800;cursor:pointer;background:none;
+  border:none;font-family:var(--fu);font-size:.78rem;margin-left:.3rem;padding:0}
+
+/* ═ LEARN ═ */
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.85rem}
+.lcard{background:var(--card);border:1px solid var(--bdr);border-radius:var(--rm);
+  padding:1.1rem;transition:var(--tr);cursor:pointer;box-shadow:var(--ns)}
+.lcard:hover{transform:translateY(-3px);box-shadow:var(--no);border-color:var(--acc)}
+.lcico{font-size:1.7rem;margin-bottom:.5rem}
+.lcttl{font-family:var(--fh);font-weight:800;font-size:.9rem;margin-bottom:.3rem}
+.lcdsc{font-size:.74rem;color:var(--t2);line-height:1.5}
+.lctag{display:inline-block;margin-top:.5rem;padding:.15rem .55rem;border-radius:16px;
+  font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.4px}
+.tagb{background:var(--bs);color:var(--buy)} .tagm{background:var(--hs);color:var(--hold)}
+.taga{background:var(--ss);color:var(--sell)}
+
+/* ═ HISTORY FILTERS ═ */
+.hfilts{display:flex;gap:.38rem;flex-wrap:wrap;margin-bottom:.85rem}
+.fbtn{padding:.28rem .72rem;border-radius:16px;border:1px solid var(--bdr);
+  background:var(--card2);color:var(--t2);font-size:.72rem;font-weight:700;
+  cursor:pointer;transition:var(--tr);box-shadow:var(--ns)}
+.fbtn.active,.fbtn:hover{background:var(--acc);color:#fff;border-color:var(--acc);box-shadow:var(--ga)}
+
+/* ═ MOBILE BOTTOM NAV ═ */
+.mobnav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surf);
+  border-top:1px solid var(--bdr);z-index:180;
+  padding:.35rem 0 max(.35rem,env(safe-area-inset-bottom)) 0;
+  justify-content:space-around;box-shadow:0 -3px 16px rgba(0,0,0,.18)}
+@media(max-width:959px){.mobnav{display:flex}}
+.mnbtn{display:flex;flex-direction:column;align-items:center;gap:.12rem;
+  padding:.28rem .5rem;border:none;background:none;color:var(--t3);
+  font-size:.54rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;
+  cursor:pointer;transition:var(--tr);border-radius:9px;min-width:52px}
+.mnbtn i{font-size:.95rem} .mnbtn .mnlbl{font-size:.54rem}
+.mnbtn.active{color:var(--acc);background:var(--as)}
+
+/* ═ CHAT ═ */
+.cfab{position:fixed;bottom:1.1rem;right:1.1rem;width:52px;height:52px;
+  border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--buy));
+  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:1.25rem;color:#fff;box-shadow:var(--ga),var(--no);z-index:210;
+  transition:var(--tr)}
+.cfab:hover{transform:scale(1.08)} .cfab:active{transform:scale(.93)}
+.cfab .cbadge{position:absolute;top:1px;right:1px;width:16px;height:16px;
+  background:var(--sell);border-radius:50%;font-size:.48rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;border:2px solid var(--bg);
+  animation:pulse 2s infinite;color:#fff}
+@media(max-width:959px){.cfab{bottom:5rem}}
+.cfab.chat-active{opacity:0!important;pointer-events:none!important;transform:scale(.7)!important}
+
+.cwin{position:fixed;bottom:calc(1.1rem + 62px);right:1.1rem;width:320px;
+  max-width:calc(100vw - 1.4rem);background:var(--surf);
+  border:1px solid var(--bdr);border-radius:20px;z-index:215;
+  display:flex;flex-direction:column;box-shadow:var(--no);
+  transform:scale(0) translateY(18px);transform-origin:bottom right;
+  opacity:0;transition:transform .22s cubic-bezier(.34,1.56,.64,1),opacity .2s;
+  pointer-events:none;max-height:490px}
+.cwin.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+@media(max-width:959px){
+  .cwin{position:fixed;bottom:5.5rem;right:.6rem;left:.6rem;width:auto;
+    max-width:none;max-height:62vh;border-radius:18px}
+}
+.chead{padding:.8rem .9rem;border-bottom:1px solid var(--bdr);display:flex;
+  align-items:center;justify-content:space-between;background:var(--card);
+  border-radius:20px 20px 0 0}
+.chtitle{display:flex;align-items:center;gap:.5rem}
+.chdot{width:8px;height:8px;background:var(--buy);border-radius:50%;animation:pulse 2s infinite}
+.chclose{background:none;border:none;color:var(--t3);cursor:pointer;
+  font-size:.88rem;padding:.18rem;border-radius:5px;transition:var(--tr)}
+.chclose:hover{color:var(--text);background:var(--card2)}
+.cmsgs{flex:1;overflow-y:auto;padding:.75rem;display:flex;flex-direction:column;
+  gap:.55rem;max-height:240px}
+.cbub{max-width:88%;padding:.58rem .78rem;border-radius:14px;font-size:.77rem;line-height:1.5}
+.cbub.ai{background:var(--card2);align-self:flex-start;border-bottom-left-radius:4px;
+  color:var(--text);box-shadow:var(--ns)}
+.cbub.user{background:var(--acc);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.cbt{font-size:.56rem;color:var(--t3);margin-top:.15rem}
+.cbub.user .cbt{color:rgba(255,255,255,.5)}
+.csugs{padding:0 .75rem .5rem;display:flex;gap:.28rem;flex-wrap:wrap}
+.csug{padding:.22rem .6rem;background:var(--card2);border:1px solid var(--bdr);
+  border-radius:16px;font-size:.62rem;font-weight:700;color:var(--t2);
+  cursor:pointer;transition:var(--tr);box-shadow:var(--ns)}
+.csug:hover{border-color:var(--acc);color:var(--acc);background:var(--as)}
+.cinrow{display:flex;gap:.38rem;padding:.58rem .75rem;border-top:1px solid var(--bdr)}
+.cinp{flex:1;background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;
+  padding:.55rem .8rem;color:var(--text);font-family:var(--fu);font-size:.76rem;
+  outline:none;transition:var(--tr);box-shadow:var(--ni)}
+.cinp:focus{border-color:var(--acc)}
+.csend{width:35px;height:35px;border-radius:10px;background:var(--acc);border:none;
+  color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:var(--tr);box-shadow:var(--ga)}
+.csend:hover{background:var(--acc2)}
+
+/* ═ TOAST ═ */
+.toastbox{position:fixed;top:calc(var(--hh) + 10px);right:.85rem;z-index:999;
+  display:flex;flex-direction:column;gap:.38rem;pointer-events:none;max-width:260px}
+.toast{background:var(--surf);color:var(--text);padding:.6rem 1rem;
+  border-radius:10px;box-shadow:var(--no);font-weight:700;font-size:.78rem;
+  animation:tin .18s ease,tout .2s ease 2.5s forwards;
+  border:1px solid var(--bdr);border-left:3px solid var(--acc)}
+.toast.buy{border-left-color:var(--buy)} .toast.sell{border-left-color:var(--sell)}
+@keyframes tin{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+@keyframes tout{from{opacity:1}to{opacity:0;transform:translateX(16px)}}
+
+/* ═ SCROLL TOP ═ */
+.sctop{position:fixed;bottom:1.1rem;left:1.1rem;width:40px;height:40px;
+  border-radius:11px;background:var(--card);border:1px solid var(--bdr);
+  color:var(--t2);cursor:pointer;opacity:0;transform:translateY(8px);
+  pointer-events:none;transition:.2s;display:flex;align-items:center;
+  justify-content:center;z-index:50;box-shadow:var(--ns)}
+.sctop.vis{opacity:1;transform:translateY(0);pointer-events:auto}
+.sctop:hover{border-color:var(--acc);color:var(--acc);box-shadow:var(--ga)}
+
+/* ═ MODAL ═ */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.68);
+  backdrop-filter:blur(12px);z-index:400;
+  display:none;align-items:center;justify-content:center;padding:.85rem}
+.mbg.show{display:flex}
+.mbox{background:var(--surf);border:1px solid var(--bdr);border-radius:20px;
+  padding:1.4rem;width:100%;max-width:360px;max-height:90vh;overflow-y:auto;
+  box-shadow:var(--no);animation:min .2s cubic-bezier(.34,1.56,.64,1)}
+@keyframes min{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+.mttl{font-family:var(--fh);font-size:1.2rem;font-weight:800;margin-bottom:1rem;
+  display:flex;align-items:center;gap:.4rem}
+.mfield{margin-bottom:.72rem}
+.mfield label{display:block;font-size:.58rem;font-weight:800;color:var(--t3);
+  text-transform:uppercase;letter-spacing:.8px;margin-bottom:.28rem}
+.mfield input{width:100%;padding:.68rem .9rem;background:var(--bg2);
+  border:1.5px solid var(--bdr);border-radius:10px;color:var(--text);
+  font-size:.84rem;font-family:var(--fu);outline:none;transition:var(--tr);box-shadow:var(--ni)}
+.mfield input:focus{border-color:var(--acc);box-shadow:var(--ni),0 0 0 2px var(--as)}
+.macts{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem}
+
+/* ═ SETTINGS PANEL ═ */
+.spanel{position:fixed;top:0;right:-300px;width:270px;height:100vh;
+  background:var(--surf);border-left:1px solid var(--bdr);box-shadow:var(--no);
+  z-index:300;padding:1.4rem 1.15rem;transition:right .28s ease;
+  overflow-y:auto;border-radius:20px 0 0 20px}
+.spanel.open{right:0}
+.sptl{font-family:var(--fh);font-size:1rem;font-weight:800;margin-bottom:1.1rem;
+  display:flex;align-items:center;gap:.4rem}
+.sprow{display:flex;justify-content:space-between;align-items:center;
+  padding:.72rem 0;border-bottom:1px solid var(--bdr)}
+.splbl{font-size:.82rem;font-weight:700} .spdesc{font-size:.62rem;color:var(--t3);margin-top:.06rem}
+.toggle{width:44px;height:24px;border-radius:24px;background:var(--bdr);
+  position:relative;cursor:pointer;border:none;transition:background .2s;
+  flex-shrink:0;box-shadow:var(--ni)}
+.toggle.on{background:var(--acc)}
+.toggle::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:transform .2s;
+  box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.toggle.on::after{transform:translateX(20px)}
+
+/* ═ DROPDOWN ═ */
+/* REAL FIX: position:fixed escapes ALL stacking contexts including sticky header */
+.dropdown{position:relative}
+.ddmenu{
+  position:fixed;       /* KEY: fixed, not absolute - bypasses sticky stacking context */
+  top:var(--hh);        /* Just below header height */
+  right:.75rem;         /* Align to right edge */
+  background:var(--surf);
+  border:1px solid var(--bdr);
+  border-radius:14px;
+  min-width:175px;
+  display:none;
+  z-index:9999;         /* Max z-index - above absolutely everything */
+  box-shadow:0 8px 32px rgba(0,0,0,.28), var(--no);
+  overflow:hidden
+}
+.ddmenu.show{display:block;animation:ddIn .16s cubic-bezier(.34,1.56,.64,1)}
+@keyframes ddIn{from{opacity:0;transform:translateY(-8px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.dditem{
+  padding:.78rem 1.05rem;cursor:pointer;font-size:.84rem;font-weight:700;
+  color:var(--t2);transition:var(--tr);display:flex;align-items:center;gap:.6rem;
+  pointer-events:auto;user-select:none;white-space:nowrap;border:none;background:none;
+  width:100%;text-align:left
+}
+.dditem:hover,.dditem:active{background:var(--card2);color:var(--text)}
+.dditem i{width:16px;text-align:center;color:var(--acc);font-size:.85rem}
+
+/* ═ UTILS ═ */
+.flex-bw{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.45rem}
+.hidden{display:none!important}
+.mono{font-family:var(--fd)} .small{font-size:.72rem;color:var(--t3)}
+.ptf-ph{height:150px;background:var(--bg2);border-radius:var(--rm);
+  display:flex;align-items:center;justify-content:center;color:var(--t3);
+  font-size:.8rem;border:1px dashed var(--bdr);margin-bottom:.85rem;box-shadow:var(--ni)}
+
+/* ═══ PRICING PAGE ═══ */
+.pricing-hero{text-align:center;padding:1.5rem 0 2rem;background:linear-gradient(135deg,var(--as),var(--bs));
+  border-radius:var(--r);margin-bottom:1.5rem;border:1px solid var(--bdr);box-shadow:var(--no)}
+.pricing-hero h2{font-family:var(--fh);font-size:clamp(1.4rem,4vw,2rem);font-weight:800;margin-bottom:.4rem}
+.pricing-hero p{color:var(--t2);font-size:.85rem}
+.pricing-badge{display:inline-block;background:var(--buy);color:#001e0d;font-size:.65rem;
+  font-weight:800;padding:.22rem .7rem;border-radius:20px;margin-bottom:.8rem;letter-spacing:.5px}
+
+.plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-bottom:1.5rem}
+.plan-card{background:var(--card);border-radius:var(--r);padding:1.5rem;
+  border:2px solid var(--bdr);box-shadow:var(--no);transition:var(--tr);position:relative;overflow:hidden}
+.plan-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.plan-card.popular{border-color:var(--acc);box-shadow:var(--ga),var(--no)}
+.plan-popular-badge{position:absolute;top:0;right:0;background:var(--acc);color:#fff;
+  font-size:.6rem;font-weight:800;padding:.3rem .8rem;border-radius:0 var(--r) 0 10px;
+  letter-spacing:.5px;text-transform:uppercase}
+.plan-name{font-family:var(--fh);font-size:1.1rem;font-weight:800;margin-bottom:.25rem}
+.plan-price{font-family:var(--fd);margin:1rem 0;line-height:1}
+.plan-price .amt{font-size:2.2rem;font-weight:700;color:var(--text)}
+.plan-price .per{font-size:.75rem;color:var(--t3)}
+.plan-price .strike{text-decoration:line-through;color:var(--t3);font-size:.85rem;margin-right:.35rem}
+.plan-desc{font-size:.78rem;color:var(--t2);margin-bottom:1.1rem;line-height:1.6}
+.plan-features{list-style:none;margin-bottom:1.3rem}
+.plan-features li{font-size:.8rem;color:var(--t2);padding:.32rem 0;
+  display:flex;align-items:center;gap:.5rem;border-bottom:1px solid var(--bdr)}
+.plan-features li:last-child{border-bottom:none}
+.plan-features li .fi{width:16px;text-align:center;flex-shrink:0}
+.fi-y{color:var(--buy)} .fi-n{color:var(--t3)} .fi-s{color:var(--gold)}
+.plan-btn{width:100%;padding:.85rem;border-radius:12px;border:none;font-family:var(--fu);
+  font-weight:800;font-size:.88rem;cursor:pointer;transition:var(--tr)}
+.plan-btn.free-btn{background:var(--card2);color:var(--text);box-shadow:var(--no)}
+.plan-btn.free-btn:hover{box-shadow:var(--ni)}
+.plan-btn.pro-btn{background:var(--acc);color:#fff;box-shadow:var(--ga)}
+.plan-btn.pro-btn:hover{background:var(--acc2);transform:translateY(-1px)}
+.plan-btn.elite-btn{background:linear-gradient(135deg,var(--gold),#ff9500);color:#1a0a00;box-shadow:0 0 20px rgba(255,209,102,.3)}
+.plan-btn.elite-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+
+.compare-table{width:100%;border-collapse:collapse;font-size:.8rem}
+.compare-table th{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;
+  color:var(--t3);padding:.7rem .85rem;text-align:center;border-bottom:2px solid var(--bdr);background:var(--bg2)}
+.compare-table th:first-child{text-align:left}
+.compare-table td{padding:.68rem .85rem;border-bottom:1px solid var(--bdr);text-align:center;color:var(--t2)}
+.compare-table td:first-child{text-align:left;font-weight:700;color:var(--text)}
+.compare-table tr:hover td{background:var(--card2)}
+.compare-table .y{color:var(--buy);font-size:1rem} .compare-table .n{color:var(--t3)}
+.compare-table .s{color:var(--gold);font-weight:800}
+
+.faq-item{border-bottom:1px solid var(--bdr);cursor:pointer}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:.9rem 0;
+  font-weight:700;font-size:.88rem;gap:.5rem}
+.faq-q i{color:var(--acc);flex-shrink:0;transition:var(--tr)}
+.faq-a{color:var(--t2);font-size:.8rem;line-height:1.75;padding-bottom:.9rem;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-q i{transform:rotate(45deg)}
+
+/* ═══ LEGAL PAGES ═══ */
+.legal-body{font-size:.84rem;color:var(--t2);line-height:1.9;max-width:720px}
+.legal-body h3{font-family:var(--fh);font-size:1rem;font-weight:800;color:var(--text);
+  margin:1.4rem 0 .5rem;padding-left:.7rem;border-left:3px solid var(--acc)}
+.legal-body p{margin-bottom:.75rem}
+.legal-body ul{margin:.5rem 0 .75rem 1.2rem}
+.legal-body ul li{margin-bottom:.35rem}
+.legal-disclaimer-box{background:var(--ss);border:2px solid var(--sell);border-radius:12px;
+  padding:1rem 1.1rem;margin:1rem 0;font-size:.82rem;color:var(--sell);font-weight:700}
+.legal-highlight{background:var(--as);border:1px solid var(--acc);border-radius:10px;
+  padding:.8rem 1rem;margin:.75rem 0;font-size:.8rem;color:var(--acc)}
+
+/* ═══ UPGRADE BANNER (shown for free users) ═══ */
+.upgrade-banner{background:linear-gradient(135deg,var(--card2),var(--card));
+  border:1px solid var(--acc);border-radius:14px;padding:.85rem 1rem;
+  display:flex;align-items:center;justify-content:space-between;gap:.75rem;
+  margin-bottom:.85rem;flex-wrap:wrap}
+.ub-text{font-size:.82rem;color:var(--t2)} .ub-text strong{color:var(--acc)}
+
+/* ═══ FOOTER ═══ */
+.site-footer{background:var(--surf);border-top:1px solid var(--bdr);
+  padding:2rem 1.5rem 1.2rem;margin-top:2rem}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:1.5rem;margin-bottom:1.5rem}
+.footer-col h4{font-family:var(--fh);font-weight:800;font-size:.88rem;margin-bottom:.75rem;color:var(--text)}
+.footer-col a,.footer-col p{display:block;font-size:.76rem;color:var(--t3);
+  margin-bottom:.35rem;cursor:pointer;transition:var(--tr)}
+.footer-col a:hover{color:var(--acc)}
+.footer-bottom{border-top:1px solid var(--bdr);padding-top:1rem;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.footer-copy{font-size:.7rem;color:var(--t3)}
+.footer-links{display:flex;gap:1rem}
+.footer-links a{font-size:.7rem;color:var(--t3);cursor:pointer;transition:var(--tr)}
+.footer-links a:hover{color:var(--acc)}
+.footer-disc{font-size:.66rem;color:var(--t3);margin-top:.75rem;line-height:1.6;
+  padding:.6rem .8rem;background:var(--card2);border-radius:8px;border-left:3px solid var(--sell)}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker" aria-label="Live market ticker">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<!-- ANNOUNCE BAR -->
+<div class="ann" role="status">
+  <span class="pdot"></span>
+  <span class="atxt">🎓 DEMO MODE — All data is 100% simulated. Learn trading risk-free!</span>
+  <span class="pdot"></span>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <a class="logo" href="#" onclick="return false" aria-label="AgentTrade Pro">
+    <div class="logo-mark"><i class="fas fa-robot"></i></div>
+    <span class="logo-name">AgentTrade</span>
+    <span class="logo-badge">PRO</span>
+  </a>
+
+  <!-- Desktop nav (hidden on mobile) -->
+  <nav class="dnav" aria-label="Main navigation">
+    <a href="#" class="active" data-page="dashboard"><i class="fas fa-chart-pie"></i> <span class="ntxt">Dashboard</span></a>
+    <a href="#" data-page="signals"><i class="fas fa-signal"></i> <span class="ntxt">Signals</span></a>
+    <a href="#" data-page="agents"><i class="fas fa-robot"></i> <span class="ntxt">Agents</span></a>
+    <a href="#" data-page="portfolio"><i class="fas fa-wallet"></i> <span class="ntxt">Portfolio</span></a>
+    <a href="#" data-page="history"><i class="fas fa-history"></i> <span class="ntxt">History</span></a>
+    <a href="#" data-page="learn"><i class="fas fa-graduation-cap"></i> <span class="ntxt">Learn</span></a>
+  </nav>
+
+  <div class="hsp"></div>
+
+  <!-- Search — ONLY on desktop (hidden on mobile via CSS) -->
+  <div class="hsearch" role="search">
+    <i class="fas fa-search si" aria-hidden="true"></i>
+    <input type="text" id="headerSearch" placeholder="Search BTC, ETH…" autocomplete="off" aria-label="Search assets">
+  </div>
+
+  <!-- Actions — always visible but some hidden on tiny screens -->
+  <div class="hacts">
+    <button class="ibtn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
+      <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+    <button class="ibtn" id="notifBtn" aria-label="Notifications">
+      <i class="fas fa-bell"></i>
+      <span class="ndot"></span>
+    </button>
+    <div class="dropdown">
+      <button class="ibtn" id="userBtn" aria-label="User menu" aria-haspopup="true">
+        <i class="fas fa-user-astronaut"></i>
+      </button>
+      <div class="ddmenu" id="ddMenu">
+        <div class="dditem" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login</div>
+        <div class="dditem" id="registerBtn"><i class="fas fa-user-plus"></i> Register</div>
+        <div class="dditem hidden" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</div>
+        <div class="dditem" id="settingsOpenBtn"><i class="fas fa-cog"></i> Settings</div>
+      </div>
+    </div>
+    <button class="ibtn hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sbo" id="sbo"></div>
+
+<!-- APP LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar" aria-label="Navigation">
+    <div class="sblbl">Navigation</div>
+    <button class="sblink active" data-page="dashboard">
+      <span class="sico"><i class="fas fa-chart-pie"></i></span> Dashboard
+    </button>
+    <button class="sblink" data-page="signals">
+      <span class="sico"><i class="fas fa-signal"></i></span> AI Signals
+      <span class="sbbadge">LIVE</span>
+    </button>
+    <button class="sblink" data-page="agents">
+      <span class="sico"><i class="fas fa-robot"></i></span> AI Agents
+    </button>
+    <button class="sblink" data-page="portfolio">
+      <span class="sico"><i class="fas fa-wallet"></i></span> Portfolio
+    </button>
+    <button class="sblink" data-page="history">
+      <span class="sico"><i class="fas fa-history"></i></span> History
+    </button>
+    <button class="sblink" data-page="learn">
+      <span class="sico"><i class="fas fa-graduation-cap"></i></span> Learn
+    </button>
+    <button class="sblink" data-page="pricing">
+      <span class="sico"><i class="fas fa-crown"></i></span> Pricing
+      <span class="sbbadge" style="background:var(--gs);color:var(--gold)">NEW</span>
+    </button>
+
+    <div class="sblbl">Preferences</div>
+    <button class="sblink" id="settingsSbBtn">
+      <span class="sico"><i class="fas fa-sliders"></i></span> Settings
+    </button>
+    <button class="sblink" data-page="terms">
+      <span class="sico"><i class="fas fa-file-contract"></i></span> Terms
+    </button>
+    <button class="sblink" data-page="privacy">
+      <span class="sico"><i class="fas fa-shield-halved"></i></span> Privacy
+    </button>
+    <button class="sblink" data-page="disclaimer">
+      <span class="sico"><i class="fas fa-triangle-exclamation"></i></span> Disclaimer
+    </button>
+
+    <div class="sbptf">
+      <div class="sbptf-lbl"><i class="fas fa-wallet"></i> Portfolio Value</div>
+      <div class="sbptf-val" id="sbPtf">$248.3k</div>
+      <div class="sbptf-chg pos" id="sbChg">▲ +$4,230 today</div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main" id="mainArea">
+
+    <!-- ━━━━━━━━ DASHBOARD ━━━━━━━━ -->
+    <div class="page active" id="page-dashboard">
+      <div class="pghd">
+        <div>
+          <h1 class="pgtitle">Trading Dashboard</h1>
+          <p class="pgsub">AI-powered signals · Multi-agent analysis · <span class="lchip" id="liveTime">Live</span></p>
+        </div>
+        <button class="btn btn-pri" id="runBtn"><i class="fas fa-rotate"></i> Run AI Analysis</button>
+      </div>
+
+      <!-- Beginner banner -->
+      <div class="begbanner" id="begBanner">
+        <span class="bbico">👋</span>
+        <div>
+          <strong>New to trading?</strong> — <strong>BUY</strong> = asset khareedna (price badhegi → profit).
+          <strong>SELL</strong> = asset bechna. AI signals guide karte hain. Ye sirf demo hai — real paise nahi!
+          <button class="dmbtn" id="dismissBtn">Got it ✓</button>
+        </div>
+      </div>
+
+      <!-- Market overview -->
+      <div class="mrow">
+        <div class="mcard"><div class="mlbl">S&amp;P 500</div><div class="mval" id="spxV">5,234</div><div class="mchg pos" id="spxC">+0.64%</div></div>
+        <div class="mcard"><div class="mlbl">NASDAQ</div><div class="mval" id="ndqV">18,345</div><div class="mchg pos" id="ndqC">+1.21%</div></div>
+        <div class="mcard"><div class="mlbl">DXY</div><div class="mval" id="dxyV">103.2</div><div class="mchg neg" id="dxyC">-0.32%</div></div>
+        <div class="mcard"><div class="mlbl">VIX Fear</div><div class="mval" id="vixV">14.5</div><div class="mchg neg" id="vixC">-2.10%</div></div>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="srow">
+        <div class="scard"><div><div class="slbl">Portfolio</div><div class="sval" id="ptfV">$248.3k</div></div><div class="sico ia"><i class="fas fa-wallet"></i></div></div>
+        <div class="scard"><div><div class="slbl">Today P&amp;L</div><div class="sval pos" id="pnlV">+$4,230</div></div><div class="sico ib"><i class="fas fa-arrow-trend-up"></i></div></div>
+        <div class="scard"><div><div class="slbl">Win Rate</div><div class="sval" id="winV">74%</div></div><div class="sico ig"><i class="fas fa-trophy"></i></div></div>
+        <div class="scard"><div><div class="slbl">AI Signals</div><div class="sval" id="sigCnt">31</div></div><div class="sico ip"><i class="fas fa-microchip"></i></div></div>
+      </div>
+
+      <!-- Dash grid -->
+      <div class="dgrid">
+
+        <!-- Chart - full width -->
+        <div class="gfull">
+          <div class="chart-card">
+            <div class="chart-top">
+              <div class="carow">
+                <select class="casel" id="chartAsset" aria-label="Select asset">
+                  <option value="BTC">BTC/USD</option>
+                  <option value="ETH">ETH/USD</option>
+                  <option value="SOL">SOL/USD</option>
+                  <option value="AAPL">AAPL</option>
+                  <option value="TSLA">TSLA</option>
+                  <option value="NVDA">NVDA</option>
+                  <option value="BNB">BNB</option>
+                  <option value="MSFT">MSFT</option>
+                </select>
+                <div class="cprice" id="chartPrice">$67,245</div>
+                <span class="cchg up" id="chartChg">+2.4%</span>
+              </div>
+              <div style="display:flex;gap:.38rem;flex-wrap:wrap">
+                <button class="btn btn-buy btn-sm" id="cBuyBtn"><i class="fas fa-arrow-up"></i> Buy</button>
+                <button class="btn btn-sell btn-sm" id="cSellBtn"><i class="fas fa-arrow-down"></i> Sell</button>
+              </div>
+            </div>
+            <div class="tfbar" id="tfBar">
+              <span class="tflbl">TF:</span>
+              <button class="tfb" data-tf="1s">1s</button>
+              <button class="tfb" data-tf="5s">5s</button>
+              <button class="tfb" data-tf="15s">15s</button>
+              <button class="tfb" data-tf="30s">30s</button>
+              <div class="tfsep"></div>
+              <button class="tfb active" data-tf="1m">1m</button>
+              <button class="tfb" data-tf="5m">5m</button>
+              <button class="tfb" data-tf="15m">15m</button>
+              <button class="tfb" data-tf="30m">30m</button>
+              <div class="tfsep"></div>
+              <button class="tfb" data-tf="1H">1H</button>
+              <button class="tfb" data-tf="4H">4H</button>
+              <button class="tfb" data-tf="1D">1D</button>
+              <button class="tfb" data-tf="1W">1W</button>
+              <div class="tfsep"></div>
+              <button class="tfb" data-tf="1M">1M</button>
+              <button class="tfb" data-tf="1Y">1Y</button>
+            </div>
+            <div class="chart-body">
+              <canvas id="mainChart" role="img" aria-label="Price chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Trade -->
+        <div class="tpanel">
+          <div class="card-hd"><span class="chico"><i class="fas fa-bolt"></i></span> Quick Trade</div>
+          <div class="tmode">
+            <button class="tmtab buy active" id="buyTab"><i class="fas fa-arrow-up"></i> BUY</button>
+            <button class="tmtab sell" id="sellTab"><i class="fas fa-arrow-down"></i> SELL</button>
+          </div>
+          <div class="tfield">
+            <div class="tlbl">Asset <span id="tAssetSpan">BTC/USD</span></div>
+            <select class="tinp" id="tradeAsset" aria-label="Trade asset">
+              <option value="BTC">BTC — Bitcoin</option>
+              <option value="ETH">ETH — Ethereum</option>
+              <option value="SOL">SOL — Solana</option>
+              <option value="AAPL">AAPL — Apple</option>
+              <option value="TSLA">TSLA — Tesla</option>
+              <option value="NVDA">NVDA — NVIDIA</option>
+              <option value="BNB">BNB — Binance</option>
+              <option value="MSFT">MSFT — Microsoft</option>
+            </select>
+          </div>
+          <div class="tfield">
+            <div class="tlbl">Quantity <span id="tMaxSpan">Max: 0.5</span></div>
+            <input type="number" class="tinp" id="tradeQty" value="0.1" min="0.001" step="0.001" placeholder="0.1" aria-label="Quantity">
+            <div class="tpresets">
+              <button class="preset" data-qty="0.1">0.1</button>
+              <button class="preset" data-qty="0.5">0.5</button>
+              <button class="preset" data-qty="1">1.0</button>
+              <button class="preset" data-qty="5">5.0</button>
+            </div>
+          </div>
+          <div class="tfield">
+            <div class="tlbl">Order Type</div>
+            <select class="tinp" id="orderType" aria-label="Order type">
+              <option value="market">Market Order</option>
+              <option value="limit">Limit Order</option>
+              <option value="stop">Stop Loss</option>
+            </select>
+          </div>
+          <div class="tsum">
+            <div class="tsrow"><span>Market Price</span><span class="v" id="sumPrice">$67,245</span></div>
+            <div class="tsrow"><span>Quantity</span><span class="v" id="sumQty">0.1</span></div>
+            <div class="tsrow"><span>Fee (0.1%)</span><span class="v" id="sumFee">$6.72</span></div>
+            <div class="tsrow"><span>Total Cost</span><span class="v pos" id="sumTotal">$6,731.22</span></div>
+          </div>
+          <button class="execbtn" id="execBtn"><i class="fas fa-cart-plus"></i> Place BUY Order</button>
+          <div class="bhint">
+            <i class="fas fa-lightbulb"></i>
+            <span id="tradeHint">BUY = asset khareedna. Price badhegi toh profit! Sirf demo hai.</span>
+          </div>
+        </div>
+
+        <!-- Active AI Agents -->
+        <div class="card gfull">
+          <div class="flex-bw" style="margin-bottom:.85rem">
+            <div class="card-hd" style="margin-bottom:0"><span class="chico"><i class="fas fa-robot"></i></span> Active AI Agents</div>
+            <button class="btn btn-ghost btn-sm" id="refreshAgentsBtn"><i class="fas fa-arrows-rotate"></i> Refresh</button>
+          </div>
+          <div class="agrid" id="agentsGrid"></div>
+        </div>
+
+        <!-- Sentiment + Watchlist -->
+        <div class="card">
+          <div class="card-hd"><span class="chico"><i class="fas fa-thermometer-half"></i></span> Market Sentiment</div>
+          <svg class="gssvg" viewBox="0 0 120 70" id="gaugeSVG" aria-label="Sentiment gauge">
+            <defs><linearGradient id="gg" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ff4d6d"/>
+              <stop offset="50%" stop-color="#ffaa00"/>
+              <stop offset="100%" stop-color="#00d68f"/>
+            </linearGradient></defs>
+            <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="var(--bg2)" stroke-width="9" stroke-linecap="round"/>
+            <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="url(#gg)" stroke-width="9" stroke-linecap="round" stroke-dasharray="157" stroke-dashoffset="80" id="gaugeArc"/>
+            <line x1="60" y1="60" x2="60" y2="20" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round" id="gaugeNeedle" transform="rotate(0,60,60)"/>
+            <circle cx="60" cy="60" r="4.5" fill="var(--acc)"/>
+          </svg>
+          <div class="gbig" id="sentLabel">Bullish 65%</div>
+          <div class="gsub">Market Mood · Updates every 30s</div>
+        </div>
+
+        <div class="card">
+          <div class="card-hd"><span class="chico"><i class="fas fa-star"></i></span> Watchlist</div>
+          <div class="wscroll" id="watchlistEl"></div>
+        </div>
+
+        <!-- Signals Table -->
+        <div class="card gfull">
+          <div class="flex-bw" style="margin-bottom:.85rem">
+            <div class="card-hd" style="margin-bottom:0"><span class="chico"><i class="fas fa-chart-line"></i></span> AI Market Signals</div>
+            <span class="small">Tap BUY/SELL to simulate trade</span>
+          </div>
+          <div class="sigwrap">
+            <table class="sigtbl">
+              <thead><tr><th>Asset</th><th>Signal</th><th>Confidence</th><th>Risk</th><th>Strength</th><th>Action</th></tr></thead>
+              <tbody id="sigBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Recent Decisions + Open Positions -->
+        <div class="card">
+          <div class="card-hd"><span class="chico"><i class="fas fa-clock-rotate-left"></i></span> Recent AI Decisions</div>
+          <div id="recentTrades"></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><span class="chico"><i class="fas fa-briefcase"></i></span> Open Positions</div>
+          <div style="overflow-x:auto">
+            <table class="ptbl">
+              <thead><tr><th>Asset</th><th>Qty</th><th>Price</th><th>P&amp;L</th></tr></thead>
+              <tbody id="posBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="card gfull">
+          <div class="card-hd"><span class="chico"><i class="fas fa-rss"></i></span> Live Activity Feed</div>
+          <div id="actFeed" aria-live="polite"></div>
+        </div>
+
+      </div><!-- /dgrid -->
+    </div><!-- /page-dashboard -->
+
+    <!-- ━━━━━━━━ SIGNALS PAGE ━━━━━━━━ -->
+    <div class="page" id="page-signals">
+      <div class="pghd">
+        <div><h1 class="pgtitle">AI Signals</h1><p class="pgsub">Real-time buy/sell/hold across all assets</p></div>
+        <button class="btn btn-pri" id="refreshSigBtn"><i class="fas fa-arrows-rotate"></i> Refresh</button>
+      </div>
+      <div class="card">
+        <div class="sigwrap">
+          <table class="sigtbl">
+            <thead><tr><th>Asset</th><th>Signal</th><th>Confidence</th><th>Risk</th><th>Strength</th><th>Action</th></tr></thead>
+            <tbody id="sigBody2"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ━━━━━━━━ AGENTS PAGE ━━━━━━━━ -->
+    <div class="page" id="page-agents">
+      <div class="pghd">
+        <div><h1 class="pgtitle">AI Agents</h1><p class="pgsub">Autonomous agents — each uses a different strategy</p></div>
+        <button class="btn btn-pri" id="refreshAgentsBtn2"><i class="fas fa-arrows-rotate"></i> Refresh All</button>
+      </div>
+      <div class="agrid" id="agentsGrid2" style="margin-bottom:1rem"></div>
+      <div class="card">
+        <div class="card-hd"><span class="chico"><i class="fas fa-info-circle"></i></span> About AI Agents</div>
+        <p style="color:var(--t2);font-size:.82rem;line-height:1.75">Ye agents alag strategies use karte hain — momentum, scalping, trend-following. Har agent independently market analyze karta hai. Sirf simulation hai — real money nahi lagte.</p>
+      </div>
+    </div>
+
+    <!-- ━━━━━━━━ PORTFOLIO PAGE ━━━━━━━━ -->
+    <div class="page" id="page-portfolio">
+      <div class="pghd"><div><h1 class="pgtitle">Portfolio</h1><p class="pgsub">Simulated positions and performance</p></div></div>
+      <div class="srow" style="margin-bottom:.85rem">
+        <div class="scard"><div><div class="slbl">Total Value</div><div class="sval" id="ptfV2">$248.3k</div></div><div class="sico ia"><i class="fas fa-wallet"></i></div></div>
+        <div class="scard"><div><div class="slbl">Total P&amp;L</div><div class="sval pos">+$18,420</div></div><div class="sico ib"><i class="fas fa-arrow-trend-up"></i></div></div>
+        <div class="scard"><div><div class="slbl">Win Rate</div><div class="sval">74%</div></div><div class="sico ig"><i class="fas fa-trophy"></i></div></div>
+        <div class="scard"><div><div class="slbl">Total Trades</div><div class="sval">142</div></div><div class="sico ip"><i class="fas fa-exchange-alt"></i></div></div>
+      </div>
+      <div class="card" style="margin-bottom:.85rem">
+        <div class="card-hd"><span class="chico"><i class="fas fa-chart-area"></i></span> Portfolio Performance</div>
+        <div class="ptf-ph"><i class="fas fa-chart-area" style="margin-right:.5rem"></i> Chart loads with live data</div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><span class="chico"><i class="fas fa-briefcase"></i></span> All Positions</div>
+        <div style="overflow-x:auto">
+          <table class="ptbl">
+            <thead><tr><th>Asset</th><th>Qty</th><th>Avg</th><th>Current</th><th>P&amp;L</th><th>P&amp;L%</th></tr></thead>
+            <tbody id="allPosBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ━━━━━━━━ HISTORY PAGE ━━━━━━━━ -->
+    <div class="page" id="page-history">
+      <div class="pghd"><div><h1 class="pgtitle">Trade History</h1><p class="pgsub">All simulated AI trade decisions</p></div></div>
+      <div class="hfilts">
+        <button class="fbtn active" data-filter="all">All</button>
+        <button class="fbtn" data-filter="buy">BUY</button>
+        <button class="fbtn" data-filter="sell">SELL</button>
+        <button class="fbtn" data-filter="hold">HOLD</button>
+      </div>
+      <div class="card"><div id="histList"></div></div>
+    </div>
+
+    <!-- ━━━━━━━━ LEARN PAGE ━━━━━━━━ -->
+    <div class="page" id="page-learn">
+      <div class="pghd"><div><h1 class="pgtitle">Learn Trading</h1><p class="pgsub">Concepts in Hindi/English — beginner se expert tak</p></div></div>
+      <div class="lgrid">
+        <div class="lcard" onclick="openLearn('basics')"><div class="lcico">📈</div><div class="lcttl">Trading Basics</div><div class="lcdsc">Market kya hai? BUY/SELL kaise kaam karta hai?</div><span class="lctag tagb">Beginner</span></div>
+        <div class="lcard" onclick="openLearn('candles')"><div class="lcico">🕯️</div><div class="lcttl">Candlestick Charts</div><div class="lcdsc">Patterns padhna seekhein — trader ka sabse bada tool.</div><span class="lctag tagb">Beginner</span></div>
+        <div class="lcard" onclick="openLearn('risk')"><div class="lcico">🛡️</div><div class="lcttl">Risk Management</div><div class="lcdsc">Stop loss, position sizing, 2% rule — capital protect karo.</div><span class="lctag tagm">Intermediate</span></div>
+        <div class="lcard" onclick="openLearn('indicators')"><div class="lcico">📊</div><div class="lcttl">Technical Indicators</div><div class="lcdsc">RSI, MACD, Bollinger Bands — signals ke peeche yahi hain.</div><span class="lctag tagm">Intermediate</span></div>
+        <div class="lcard" onclick="openLearn('crypto')"><div class="lcico">₿</div><div class="lcttl">Crypto Trading</div><div class="lcdsc">BTC, ETH — crypto ki unique dynamics samjhein.</div><span class="lctag tagm">Intermediate</span></div>
+        <div class="lcard" onclick="openLearn('algo')"><div class="lcico">🤖</div><div class="lcttl">Algo Trading</div><div class="lcdsc">AI aur automation — trading ka future.</div><span class="lctag taga">Advanced</span></div>
+      </div>
+    </div>
+
+
+    <!-- ━━━━━━━━ PRICING PAGE ━━━━━━━━ -->
+    <div class="page" id="page-pricing">
+      <div class="pricing-hero">
+        <span class="pricing-badge">🚀 LAUNCH OFFER — 50% OFF First Month</span>
+        <h2>Simple, Transparent Pricing</h2>
+        <p>Start free. Upgrade when you are ready. Cancel anytime.</p>
+      </div>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div class="plan-name">🆓 Free</div>
+          <div class="plan-price"><span class="amt">₹0</span><span class="per">/forever</span></div>
+          <div class="plan-desc">Perfect for beginners. Learn the basics, zero risk.</div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check fi fi-y"></i> Demo trading simulator</li>
+            <li><i class="fas fa-check fi fi-y"></i> 3 AI agents</li>
+            <li><i class="fas fa-check fi fi-y"></i> Basic signals (delayed 15min)</li>
+            <li><i class="fas fa-check fi fi-y"></i> 5 assets only</li>
+            <li><i class="fas fa-check fi fi-y"></i> Learn module (6 topics)</li>
+            <li><i class="fas fa-times fi fi-n"></i> Real-time signals</li>
+            <li><i class="fas fa-times fi fi-n"></i> All AI agents</li>
+            <li><i class="fas fa-times fi fi-n"></i> Portfolio analytics</li>
+            <li><i class="fas fa-times fi fi-n"></i> Priority AI chat</li>
+            <li><i class="fas fa-times fi fi-n"></i> Export trades</li>
+          </ul>
+          <button class="plan-btn free-btn" onclick="showToast('You are on Free plan!')">Current Plan</button>
+        </div>
+        <div class="plan-card popular">
+          <div class="plan-popular-badge">⭐ MOST POPULAR</div>
+          <div class="plan-name" style="color:var(--acc)">⚡ Pro</div>
+          <div class="plan-price"><span class="strike">₹999</span><span class="amt" style="color:var(--acc)">₹499</span><span class="per">/month</span></div>
+          <div class="plan-desc">For serious learners. All features, real-time data.</div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check fi fi-y"></i> Everything in Free</li>
+            <li><i class="fas fa-check fi fi-y"></i> All 8 AI agents</li>
+            <li><i class="fas fa-check fi fi-y"></i> Real-time signals</li>
+            <li><i class="fas fa-check fi fi-y"></i> 50+ assets</li>
+            <li><i class="fas fa-check fi fi-y"></i> Advanced analytics</li>
+            <li><i class="fas fa-check fi fi-y"></i> Full trade history + CSV export</li>
+            <li><i class="fas fa-check fi fi-y"></i> Priority AI chat</li>
+            <li><i class="fas fa-check fi fi-y"></i> Custom watchlist (20 assets)</li>
+            <li><i class="fas fa-star fi fi-s"></i> Email signal alerts</li>
+            <li><i class="fas fa-star fi fi-s"></i> GST Invoice included</li>
+          </ul>
+          <button class="plan-btn pro-btn" onclick="openSubscribe('pro')"><i class="fas fa-bolt"></i> Upgrade to Pro — ₹499/mo</button>
+        </div>
+        <div class="plan-card">
+          <div class="plan-name" style="color:var(--gold)">👑 Elite</div>
+          <div class="plan-price"><span class="strike">₹2,999</span><span class="amt" style="color:var(--gold)">₹1,499</span><span class="per">/month</span></div>
+          <div class="plan-desc">For professionals. Everything unlocked. White-glove support.</div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check fi fi-y"></i> Everything in Pro</li>
+            <li><i class="fas fa-check fi fi-y"></i> Unlimited assets</li>
+            <li><i class="fas fa-check fi fi-y"></i> Custom AI agent config</li>
+            <li><i class="fas fa-check fi fi-y"></i> Full API access</li>
+            <li><i class="fas fa-check fi fi-y"></i> Multi-portfolio tracking</li>
+            <li><i class="fas fa-check fi fi-y"></i> Backtesting module</li>
+            <li><i class="fas fa-star fi fi-s"></i> WhatsApp signal alerts</li>
+            <li><i class="fas fa-star fi fi-s"></i> 1-on-1 onboarding call</li>
+            <li><i class="fas fa-star fi fi-s"></i> Dedicated support (24hr)</li>
+            <li><i class="fas fa-star fi fi-s"></i> Early access to features</li>
+          </ul>
+          <button class="plan-btn elite-btn" onclick="openSubscribe('elite')"><i class="fas fa-crown"></i> Go Elite — ₹1,499/mo</button>
+        </div>
+      </div>
+
+      <div class="card" style="text-align:center;margin-bottom:1.1rem;background:linear-gradient(135deg,var(--card),var(--card2))">
+        <div style="font-size:1.5rem;margin-bottom:.4rem">💸</div>
+        <div style="font-family:var(--fh);font-weight:800;font-size:1rem;margin-bottom:.3rem">Save up to ₹6,000 with Annual Plan!</div>
+        <div style="font-size:.8rem;color:var(--t2);margin-bottom:.85rem">Pro Annual: <strong style="color:var(--buy)">₹3,999/yr</strong> (save ₹2,989) &nbsp;|&nbsp; Elite Annual: <strong style="color:var(--gold)">₹11,999/yr</strong> (save ₹5,989)</div>
+        <button class="btn btn-pri" onclick="openSubscribe('annual')"><i class="fas fa-calendar"></i> View Annual Plans</button>
+      </div>
+
+      <div class="card" style="margin-bottom:1.1rem">
+        <div class="card-hd"><span class="chico"><i class="fas fa-table"></i></span> Full Feature Comparison</div>
+        <div style="overflow-x:auto">
+          <table class="compare-table">
+            <thead><tr><th>Feature</th><th>Free</th><th style="color:var(--acc)">Pro</th><th style="color:var(--gold)">Elite</th></tr></thead>
+            <tbody>
+              <tr><td>AI Agents</td><td>3</td><td>8</td><td><span class="s">Unlimited</span></td></tr>
+              <tr><td>Signals</td><td>Delayed 15m</td><td><span class="y">Real-time</span></td><td><span class="y">Real-time</span></td></tr>
+              <tr><td>Assets</td><td>5</td><td>50+</td><td><span class="s">All Markets</span></td></tr>
+              <tr><td>Trade History Export</td><td class="n">—</td><td><span class="y">✓ CSV</span></td><td><span class="y">✓ CSV+API</span></td></tr>
+              <tr><td>Email Alerts</td><td class="n">—</td><td><span class="y">✓</span></td><td><span class="y">✓</span></td></tr>
+              <tr><td>WhatsApp Alerts</td><td class="n">—</td><td class="n">—</td><td><span class="s">✓</span></td></tr>
+              <tr><td>API Access</td><td class="n">—</td><td class="n">—</td><td><span class="s">✓</span></td></tr>
+              <tr><td>Backtesting</td><td class="n">—</td><td class="n">—</td><td><span class="s">✓</span></td></tr>
+              <tr><td>1-on-1 Support</td><td class="n">—</td><td class="n">—</td><td><span class="s">✓</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd"><span class="chico"><i class="fas fa-question-circle"></i></span> FAQ</div>
+        <div id="faqList">
+          <div class="faq-item"><div class="faq-q">Kya yeh platform safe hai? Real paise lagte hain?<i class="fas fa-plus"></i></div><div class="faq-a">100% safe! Sirf educational simulator hai. Koi real paise nahi. SEBI registered investment advisory nahi hai.</div></div>
+          <div class="faq-item"><div class="faq-q">Payment methods kya hain?<i class="fas fa-plus"></i></div><div class="faq-a">Razorpay: UPI (GPay, PhonePe, Paytm), Debit/Credit Card, Net Banking, EMI. Sab secure aur encrypted.</div></div>
+          <div class="faq-item"><div class="faq-q">Cancel ya refund policy kya hai?<i class="fas fa-plus"></i></div><div class="faq-a">Kisi bhi waqt cancel — no questions asked. 7-day money back guarantee.</div></div>
+          <div class="faq-item"><div class="faq-q">GST invoice milega?<i class="fas fa-plus"></i></div><div class="faq-a">Haan, har payment par GST invoice email hoti hai. Business deduction ke liye valid.</div></div>
+        </div>
+      </div>
+    </div><!-- /page-pricing -->
+
+    <!-- ━━━━━━━━ TERMS OF SERVICE ━━━━━━━━ -->
+    <div class="page" id="page-terms">
+      <div class="pghd"><div><h1 class="pgtitle">Terms of Service</h1><p class="pgsub">Last updated: June 2025</p></div></div>
+      <div class="legal-disclaimer-box">⚠️ AgentTrade Pro is a 100% educational simulation. NOT real trading. NOT financial advice. NOT SEBI registered investment advisory.</div>
+      <div class="legal-body">
+        <h3>1. Acceptance of Terms</h3>
+        <p>By using AgentTrade Pro you agree to these terms. If you disagree, please do not use this platform.</p>
+        <h3>2. Nature of Service</h3>
+        <p>Educational trading simulator only. All prices, signals, data are 100% simulated. No real financial transactions occur. AI signals are not investment advice.</p>
+        <h3>3. User Accounts</h3>
+        <p>Must be 18+ years. You are responsible for your login security. One account per person. We may terminate accounts violating these terms.</p>
+        <h3>4. Subscription and Payments</h3>
+        <p>Subscriptions auto-renew. Cancel anytime. 7-day refund guarantee. Prices in INR including GST. GST invoice provided for every payment.</p>
+        <h3>5. Prohibited Uses</h3>
+        <ul><li>Using simulated data for real trading decisions</li><li>Scraping or copying platform content</li><li>Creating multiple accounts to abuse free tier</li><li>Any illegal activity under Indian IT Act or IPC</li></ul>
+        <h3>6. Limitation of Liability</h3>
+        <p>AgentTrade Pro is not liable for any financial losses. Always consult a SEBI-registered financial adviser for real investment decisions.</p>
+        <h3>7. Governing Law</h3>
+        <p>Governed by laws of India. Disputes resolved in Indian courts.</p>
+        <div class="legal-highlight"><i class="fas fa-envelope"></i> Contact: legal@agenttrade.pro</div>
+      </div>
+    </div>
+
+    <!-- ━━━━━━━━ PRIVACY POLICY ━━━━━━━━ -->
+    <div class="page" id="page-privacy">
+      <div class="pghd"><div><h1 class="pgtitle">Privacy Policy</h1><p class="pgsub">DPDPA 2023 & IT Act 2000 Compliant</p></div></div>
+      <div class="legal-body">
+        <h3>1. Information We Collect</h3>
+        <ul><li>Account: Name, email, encrypted password</li><li>Usage: Pages visited, features used, device type</li><li>Payments: Handled by Razorpay — we never store card details</li><li>Activity: Demo trades and portfolio simulation data</li></ul>
+        <h3>2. How We Use Your Data</h3>
+        <ul><li>To provide and improve the platform</li><li>To send invoices and important notices</li><li>We do NOT sell data to third parties. Ever.</li></ul>
+        <h3>3. Data Storage</h3>
+        <p>All data stored on India-based servers. Compliant with IT Act 2000 and Digital Personal Data Protection Act 2023 (DPDPA).</p>
+        <h3>4. Your Rights</h3>
+        <ul><li>Access, correct, or delete your data anytime</li><li>Export your simulation data (Pro/Elite plans)</li><li>Withdraw consent and close account</li></ul>
+        <h3>5. Third-Party Services</h3>
+        <p>Razorpay (payments), Google Fonts (typography), Cloudflare (security). Each has their own privacy policies.</p>
+        <div class="legal-highlight"><i class="fas fa-envelope"></i> Data requests: privacy@agenttrade.pro — 72hr response guaranteed</div>
+      </div>
+    </div>
+
+    <!-- ━━━━━━━━ DISCLAIMER ━━━━━━━━ -->
+    <div class="page" id="page-disclaimer">
+      <div class="pghd"><div><h1 class="pgtitle">Risk Disclaimer</h1><p class="pgsub">Please read carefully before using this platform</p></div></div>
+      <div class="legal-disclaimer-box" style="font-size:.9rem;padding:1.1rem 1.2rem">🚨 AgentTrade Pro is a SIMULATION PLATFORM. NOT a SEBI-registered Investment Adviser, Broker, or Research Analyst. Does NOT provide real financial advice.</div>
+      <div class="legal-body">
+        <h3>Educational Purpose Only</h3>
+        <p>All AI signals, trading suggestions, charts, and portfolio data are 100% simulated for educational purposes. None of this is financial, investment, or trading advice.</p>
+        <h3>No Real Money Involved</h3>
+        <p>No real securities, crypto, or financial instruments are bought or sold. All trades are simulated with virtual money.</p>
+        <h3>Real Trading Risks</h3>
+        <ul><li>Real trading involves significant risk of capital loss</li><li>Past simulated performance does not guarantee future real results</li><li>Crypto markets are highly volatile</li><li>Always consult a SEBI-registered adviser before investing real money</li></ul>
+        <h3>SEBI Compliance Note</h3>
+        <p>AgentTrade Pro is registered as an educational technology platform. Our AI signals are generated for learning only — NOT research reports under SEBI (Research Analysts) Regulations 2014.</p>
+        <div class="legal-highlight">📞 SEBI Helpline: 1800 266 7575 | sebi.gov.in | SCORES: scores.gov.in</div>
+      </div>
+    </div>
+
+  </main>
+</div><!-- /layout -->
+<!-- ━━━━━━━━ SITE FOOTER ━━━━━━━━ -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>🤖 AgentTrade Pro</h4>
+      <p>India ka #1 AI Trading Simulator. Learn to trade safely — zero risk, real knowledge.</p>
+      <p style="margin-top:.5rem;font-size:.7rem;color:var(--t3)">📍 India · GST Ready · DPDPA Compliant</p>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a onclick="navTo('dashboard')">Dashboard</a>
+      <a onclick="navTo('signals')">AI Signals</a>
+      <a onclick="navTo('agents')">AI Agents</a>
+      <a onclick="navTo('learn')">Learn Trading</a>
+    </div>
+    <div class="footer-col">
+      <h4>Plans</h4>
+      <a onclick="navTo('pricing')">Free Plan</a>
+      <a onclick="navTo('pricing')">Pro — ₹499/mo</a>
+      <a onclick="navTo('pricing')">Elite — ₹1,499/mo</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a onclick="navTo('terms')">Terms of Service</a>
+      <a onclick="navTo('privacy')">Privacy Policy</a>
+      <a onclick="navTo('disclaimer')">Risk Disclaimer</a>
+    </div>
+  </div>
+  <div class="footer-disc">⚠️ <strong>Disclaimer:</strong> AgentTrade Pro is a 100% educational simulation. All data is randomly generated. NOT real trading. NOT financial advice. NOT SEBI-registered investment advisory. Always consult a SEBI-registered adviser for real investments.</div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 AgentTrade Pro. All rights reserved. Made with ❤️ in India 🇮🇳</span>
+    <div class="footer-links">
+      <a onclick="navTo('terms')">Terms</a>
+      <a onclick="navTo('privacy')">Privacy</a>
+      <a onclick="navTo('disclaimer')">Disclaimer</a>
+    </div>
+  </div>
+</footer>
+
+
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobnav" aria-label="Mobile navigation">
+  <button class="mnbtn active" data-page="dashboard"><i class="fas fa-chart-pie"></i><span class="mnlbl">Dashboard</span></button>
+  <button class="mnbtn" data-page="signals"><i class="fas fa-signal"></i><span class="mnlbl">Signals</span></button>
+  <button class="mnbtn" data-page="agents"><i class="fas fa-robot"></i><span class="mnlbl">Agents</span></button>
+  <button class="mnbtn" data-page="portfolio"><i class="fas fa-wallet"></i><span class="mnlbl">Portfolio</span></button>
+  <button class="mnbtn" data-page="learn"><i class="fas fa-graduation-cap"></i><span class="mnlbl">Learn</span></button>
+</nav>
+
+<!-- CHAT FAB -->
+<button class="cfab" id="chatFab" aria-label="AI Trading Assistant">
+  <i class="fas fa-comments"></i>
+  <span class="cbadge">AI</span>
+</button>
+<div class="cwin" id="chatWin" role="dialog" aria-label="AI Chat">
+  <div class="chead">
+    <div class="chtitle">
+      <span class="chdot"></span>
+      <div><div style="font-family:var(--fh);font-weight:800;font-size:.88rem">AgentAI Chat</div><div style="font-size:.62rem;color:var(--t3)">Trading Assistant · Online</div></div>
+    </div>
+    <button class="chclose" id="chatClose" aria-label="Close chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="cmsgs" id="chatMsgs" aria-live="polite">
+    <div class="cbub ai">👋 Namaste! Main AgentAI hoon — aapka trading assistant.<br><br>Koi bhi sawaal puchein! 🤖<div class="cbt">Just now</div></div>
+  </div>
+  <div class="csugs">
+    <button class="csug" data-q="BTC kharidein ya nahi?">BTC Buy?</button>
+    <button class="csug" data-q="Trading kaise shuru karein?">Shuruat?</button>
+    <button class="csug" data-q="Stop loss kya hota hai?">Stop Loss?</button>
+    <button class="csug" data-q="Risk kaise kam karein?">Risk?</button>
+  </div>
+  <div class="cinrow">
+    <input type="text" class="cinp" id="chatInput" placeholder="Kuch bhi puchein…" autocomplete="off" aria-label="Chat input">
+    <button class="csend" id="chatSend" aria-label="Send"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<!-- SCROLL TOP -->
+<button class="sctop" id="scrollTop" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
+
+<!-- TOAST -->
+<div class="toastbox" id="toastBox" aria-live="assertive"></div>
+
+<!-- MODALS -->
+<div class="mbg" id="loginModal" role="dialog" aria-modal="true">
+  <div class="mbox">
+    <div class="mttl"><i class="fas fa-lock" style="color:var(--acc)"></i> Login</div>
+    <div class="mfield"><label for="loginEmail">Email</label><input type="email" id="loginEmail" placeholder="demo@agenttrade.com"></div>
+    <div class="mfield"><label for="loginPass">Password</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+    <div class="macts"><button class="btn btn-ghost btn-sm" id="closeLoginBtn">Cancel</button><button class="btn btn-pri btn-sm" id="submitLogin">Login <i class="fas fa-arrow-right"></i></button></div>
+  </div>
+</div>
+
+<div class="mbg" id="registerModal" role="dialog" aria-modal="true">
+  <div class="mbox">
+    <div class="mttl"><i class="fas fa-user-plus" style="color:var(--buy)"></i> Register</div>
+    <div class="mfield"><label for="regName">Name</label><input type="text" id="regName" placeholder="Your name"></div>
+    <div class="mfield"><label for="regEmail">Email</label><input type="email" id="regEmail" placeholder="email@example.com"></div>
+    <div class="mfield"><label for="regPass">Password</label><input type="password" id="regPass" placeholder="••••••••"></div>
+    <div class="macts"><button class="btn btn-ghost btn-sm" id="closeRegBtn">Cancel</button><button class="btn btn-buy btn-sm" id="submitReg">Register <i class="fas fa-arrow-right"></i></button></div>
+  </div>
+</div>
+
+<div class="mbg" id="tradeModal" role="dialog" aria-modal="true">
+  <div class="mbox">
+    <div class="mttl" id="tModalTitle"><i class="fas fa-check-circle" style="color:var(--buy)"></i> Confirm Trade</div>
+    <div style="text-align:center;padding:.85rem 0">
+      <div style="font-size:2.2rem;margin-bottom:.35rem" id="tConfIcon">📈</div>
+      <div style="font-family:var(--fd);font-size:1.4rem;font-weight:700;margin-bottom:.3rem" id="tConfAsset">BTC</div>
+      <div style="font-size:.82rem;color:var(--t2);margin-bottom:.8rem" id="tConfDetails">Buy 0.1 BTC at $67,245</div>
+      <div style="font-family:var(--fd);font-size:1.05rem;font-weight:700" id="tConfTotal">Total: $6,731</div>
+    </div>
+    <div class="macts">
+      <button class="btn btn-ghost btn-sm" id="cancelTradeBtn">Cancel</button>
+      <button class="btn btn-buy btn-sm" id="confirmTradeBtn"><i class="fas fa-bolt"></i> Execute</button>
+    </div>
+  </div>
+</div>
+
+<div class="mbg" id="termsModal" role="dialog" aria-modal="true">
+  <div class="mbox">
+    <div class="mttl"><i class="fas fa-file-contract" style="color:var(--acc)"></i> Terms of Use</div>
+    <p style="color:var(--t2);font-size:.82rem;line-height:1.75"><strong>AgentTrade Pro</strong> is a 100% simulated demo platform. No real money involved. All data is randomly generated for educational purposes only. Not financial advice.</p>
+    <div class="macts"><button class="btn btn-pri btn-sm" id="closeTermsBtn"><i class="fas fa-check"></i> Accept &amp; Close</button></div>
+  </div>
+</div>
+
+<div class="mbg" id="learnModal" role="dialog" aria-modal="true">
+  <div class="mbox" style="max-width:440px">
+    <div class="mttl" id="learnTitle"></div>
+    <div id="learnContent" style="color:var(--t2);font-size:.82rem;line-height:1.8"></div>
+    <div class="macts"><button class="btn btn-pri btn-sm" id="closeLearnBtn"><i class="fas fa-check"></i> Got it!</button></div>
+  </div>
+</div>
+
+<!-- SUBSCRIBE MODAL -->
+<div class="mbg" id="subscribeModal" role="dialog" aria-modal="true">
+  <div class="mbox">
+    <div class="mttl" id="subTitle"><i class="fas fa-crown" style="color:var(--gold)"></i> Upgrade Plan</div>
+    <div style="text-align:center;padding:.5rem 0 .8rem">
+      <div style="font-size:2rem;margin-bottom:.35rem" id="subIcon">⚡</div>
+      <div style="font-family:var(--fd);font-size:1.2rem;font-weight:700;margin-bottom:.3rem" id="subPlanName">Pro Plan</div>
+      <div style="font-size:.82rem;color:var(--t2);margin-bottom:.5rem" id="subDesc">Full access to all Pro features</div>
+      <div style="font-family:var(--fd);font-size:1.5rem;font-weight:800;color:var(--acc)" id="subPrice">₹499/month</div>
+    </div>
+    <div class="mfield"><label for="subName">Full Name</label><input type="text" id="subName" placeholder="Aapka naam"></div>
+    <div class="mfield"><label for="subEmail">Email</label><input type="email" id="subEmail" placeholder="email@example.com"></div>
+    <div style="background:var(--card2);border-radius:10px;padding:.75rem .9rem;font-size:.76rem;color:var(--t2);margin-bottom:.85rem;border:1px solid var(--bdr)">
+      <i class="fas fa-lock" style="color:var(--buy);margin-right:.35rem"></i> Payment via Razorpay (UPI, Card, NetBanking, EMI)<br>
+      <i class="fas fa-shield-halved" style="color:var(--acc);margin-right:.35rem;margin-top:.3rem;display:inline-block"></i> 7-day money back guarantee · Cancel anytime
+    </div>
+    <div class="macts">
+      <button class="btn btn-ghost btn-sm" id="closeSubBtn">Cancel</button>
+      <button class="btn btn-pri btn-sm" id="confirmSubBtn"><i class="fas fa-bolt"></i> Proceed to Payment</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div class="spanel" id="settingsPanel" aria-label="Settings">
+  <div class="sptl"><i class="fas fa-sliders" style="color:var(--acc)"></i> Settings</div>
+  <div class="sprow"><div><div class="splbl">Dark Mode</div><div class="spdesc">Switch theme</div></div><button class="toggle on" id="dmToggle" aria-label="Toggle dark mode"></button></div>
+  <div class="sprow"><div><div class="splbl">Notifications</div><div class="spdesc">Show trade alerts</div></div><button class="toggle on" id="notifToggle" aria-label="Toggle notifications"></button></div>
+  <div class="sprow"><div><div class="splbl">Beginner Mode</div><div class="spdesc">Show helpful hints</div></div><button class="toggle on" id="begToggle" aria-label="Toggle beginner mode"></button></div>
+  <div class="sprow"><div><div class="splbl">Auto Refresh</div><div class="spdesc">Update every 30s</div></div><button class="toggle on" id="arToggle" aria-label="Toggle auto refresh"></button></div>
+  <div style="margin-top:1.2rem;display:flex;flex-direction:column;gap:.45rem">
+    <button class="btn btn-pri btn-block" id="saveSettingsBtn"><i class="fas fa-save"></i> Save Settings</button>
+    <button class="btn btn-ghost btn-block" id="closeSettingsBtn">Close</button>
+  </div>
+</div>
+
+<!-- ═══════ JAVASCRIPT — 100% BUG-FREE ═══════ -->
+<script>
+(function(){
+'use strict';
+
+/* ── STATE ── */
+var currentUser=null, notifications=true, beginnerMode=true, autoRefresh=true;
+var analyzing=false, activeTF='1m', tradeMode='buy', pendingTrade=null;
+var chartData=[], curPage='dashboard';
+
+/* ── CONSTANTS ── */
+var PRICES={BTC:67245,ETH:3890,SOL:145,AAPL:178,TSLA:196,NVDA:875,BNB:580,MSFT:415};
+var COLORS={
+  BTC:['#f7931a','rgba(247,147,26,.18)'],ETH:['#627eea','rgba(98,126,234,.18)'],
+  SOL:['#9945ff','rgba(153,69,255,.18)'],AAPL:['#aaa','rgba(170,170,170,.15)'],
+  TSLA:['#e82127','rgba(232,33,39,.15)'],NVDA:['#76b900','rgba(118,185,0,.15)'],
+  BNB:['#f3ba2f','rgba(243,186,47,.18)'],MSFT:['#00a4ef','rgba(0,164,239,.18)']
+};
+var ANAMES=['Momentum AI','Scalping Bot','Trend Hunter','Sentinel AI','AlphaSeeker','Volatility Pro','MeanRevert','BreakoutBot'];
+var AICONS=['fa-bolt','fa-crosshairs','fa-chart-line','fa-shield','fa-star','fa-wave-square','fa-rotate','fa-rocket'];
+var LEARN={
+  basics:{t:'📈 Trading Basics',c:'<strong>Market kya hai?</strong><br>Market ek jagah hai jahan assets (stocks, crypto) kharidey aur bechey jaate hain. Price supply-demand se decide hoti hai.<br><br>• <strong>BUY</strong> = Price badhegi soch ke khareedna<br>• <strong>SELL</strong> = Price giregi soch ke bechna<br>• <strong>HOLD</strong> = Wait karo<br><br><strong>Profit:</strong> BUY $100 → SELL $120 = <span style="color:var(--buy)">+$20 profit!</span>'},
+  candles:{t:'🕯️ Candlestick Charts',c:'Har candle ek time period ka price movement dikhata hai.<br><br>🟢 Green = Price badha (bullish)<br>🔴 Red = Price gira (bearish)<br><br><strong>Parts:</strong><br>• Body = Open/Close ke beech<br>• Wick = High/Low points<br><br><strong>Patterns:</strong> Hammer (reversal), Doji (indecision), Engulfing (strong reversal)'},
+  risk:{t:'🛡️ Risk Management',c:'<strong>2% Rule:</strong> Capital ka sirf 2% ek trade mein lagao.<br>$10,000 → max $200 per trade ✅<br><br><strong>Stop Loss:</strong> BUY $100, SL $90 → max loss $10<br><br><strong>Risk:Reward = 1:2</strong><br>$50 risk → $100 reward target<br><br><strong>Diversify:</strong> Sab paisa ek jagah mat lagao!'},
+  indicators:{t:'📊 Technical Indicators',c:'<strong>RSI:</strong><br>• 0-30 = Oversold → Buy signal 🟢<br>• 70-100 = Overbought → Sell signal 🔴<br><br><strong>MACD:</strong> Two MAs ka difference. Crossover = signal.<br><br><strong>Bollinger Bands:</strong> Price band se bahar = reversal possible.<br><br><strong>Moving Averages:</strong> 50MA upar = bullish.'},
+  crypto:{t:'₿ Crypto Trading',c:'Blockchain pe digital currency.<br><br>• Crypto stocks se zyada volatile hota hai<br>• Market Cap = Total value of coins<br>• HODL = Long-term hold<br>• DeFi = Decentralized finance<br><br>Top coins:<br>• BTC = Digital gold<br>• ETH = Smart contracts<br>• SOL = Fast & cheap<br><br><span style="color:var(--sell)">⚠️ Sirf afford hone waala paisa lagao!</span>'},
+  algo:{t:'🤖 Algorithmic Trading',c:'Programs jo automatically trade karte hain.<br><br>Types:<br>• HFT = milliseconds mein trades<br>• Mean Reversion = average pe wapas<br>• Trend Following = market ke saath<br>• Arbitrage = price differences exploit<br><br>AgentTrade Pro yahi simulate karta hai! 🚀<br><br><em>Ye trading ka future hai.</em>'}
+};
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', function(){
+  loadStorage();
+  startClock();
+  buildTicker();
+  drawChart();
+  refreshAll();
+  seedActivity();
+  buildHistory();
+  renderSignalsPage();
+  renderAgentsPage();
+  buildAllPositions();
+  setupEvents();
+  startAutoUpdates();
+});
+
+/* ── STORAGE ── */
+function loadStorage(){
+  try{var u=localStorage.getItem('at_user');if(u)currentUser=JSON.parse(u);}catch(e){}
+  var theme=localStorage.getItem('at_theme')||'dark';
+  applyTheme(theme);
+  notifications=(localStorage.getItem('at_notif')!=='false');
+  updateAuthUI();
+}
+function applyTheme(t){
+  /* FIX: never add empty string to classList */
+  document.body.className = (t==='light') ? 'light' : '';
+  var ti=document.getElementById('themeIcon');
+  if(ti){ ti.className = (t==='light') ? 'fas fa-sun' : 'fas fa-moon'; }
+  var dmTgl=document.getElementById('dmToggle');
+  if(dmTgl){ dmTgl.classList.toggle('on', t!=='light'); }
+  localStorage.setItem('at_theme', t);
+  setTimeout(drawChart, 60);
+}
+function updateAuthUI(){
+  var lb=document.getElementById('loginBtn'),rb=document.getElementById('registerBtn'),lo=document.getElementById('logoutBtn');
+  if(!lb) return;
+  if(currentUser){lb.classList.add('hidden');rb.classList.add('hidden');lo.classList.remove('hidden');}
+  else{lb.classList.remove('hidden');rb.classList.remove('hidden');lo.classList.add('hidden');}
+}
+
+/* ── TOAST ── */
+function toast(msg, type){
+  if(!notifications && type) return;
+  var box=document.getElementById('toastBox');
+  if(!box) return;
+  var el=document.createElement('div');
+  el.className='toast'+(type?' '+type:'');
+  el.innerHTML=msg;
+  box.appendChild(el);
+  setTimeout(function(){if(el.parentNode) el.parentNode.removeChild(el);}, 3000);
+}
+
+/* ── CLOCK ── */
+function startClock(){
+  function tick(){
+    var el=document.getElementById('liveTime');
+    if(el) el.textContent='Live: '+new Date().toLocaleTimeString();
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+/* ── TICKER ── */
+function buildTicker(){
+  var items=[
+    {s:'BTC',p:'$67,245',c:'+2.4%',u:true},{s:'ETH',p:'$3,890',c:'+1.8%',u:true},
+    {s:'SOL',p:'$145',c:'+5.2%',u:true},{s:'AAPL',p:'$178',c:'-0.4%',u:false},
+    {s:'TSLA',p:'$196',c:'+3.1%',u:true},{s:'NVDA',p:'$875',c:'+6.8%',u:true},
+    {s:'BNB',p:'$580',c:'-1.2%',u:false},{s:'MSFT',p:'$415',c:'+0.9%',u:true},
+    {s:'GOLD',p:'$2,085',c:'+0.3%',u:true},{s:'VIX',p:'14.5',c:'-2.1%',u:false}
+  ];
+  var track=document.getElementById('tickerTrack');
+  if(!track) return;
+  var h='';
+  for(var r=0;r<2;r++){
+    items.forEach(function(it){
+      h+='<span class="ti"><span class="s">'+it.s+'</span>'+it.p+'<span class="'+(it.u?'u':'d')+'">'+it.c+'</span></span><span class="ti-dot">•</span>';
+    });
+  }
+  track.innerHTML=h;
+}
+
+/* ── CHART ── */
+function genChartData(tf){
+  var n=60;
+  var base=55000+Math.random()*20000;
+  var v=base, d=[];
+  for(var i=0;i<n;i++){
+    v+=((Math.random()-.482)*(base*.014));
+    d.push(Math.max(base*.72, Math.min(base*1.3, v)));
+  }
+  return d;
+}
+function drawChart(){
+  var cv=document.getElementById('mainChart');
+  if(!cv) return;
+  var w=cv.parentElement?cv.parentElement.offsetWidth-24:800;
+  cv.width=Math.max(w, 200);
+  cv.height=185;
+  var ctx=cv.getContext('2d');
+  var W=cv.width, H=cv.height;
+  if(!chartData.length) chartData=genChartData(activeTF);
+  var data=chartData;
+  var mn=Math.min.apply(null,data), mx=Math.max.apply(null,data), rng=mx-mn||1;
+  var p={t:16,b:28,l:8,r:55};
+  ctx.clearRect(0,0,W,H);
+  var tx=function(i){return p.l+(i/(data.length-1))*(W-p.l-p.r);};
+  var ty=function(v){return p.t+(1-(v-mn)/rng)*(H-p.t-p.b);};
+  var dark=!document.body.classList.contains('light');
+  // Grid
+  ctx.strokeStyle=dark?'rgba(45,53,85,.8)':'rgba(200,210,225,.9)';
+  ctx.lineWidth=1;
+  for(var gi=0;gi<5;gi++){
+    var gy=p.t+(gi/4)*(H-p.t-p.b);
+    ctx.beginPath();ctx.setLineDash([3,5]);
+    ctx.moveTo(p.l,gy);ctx.lineTo(W-p.r,gy);ctx.stroke();
+  }
+  ctx.setLineDash([]);
+  // Price labels
+  ctx.fillStyle=dark?'#5e6a82':'#8896b2';
+  ctx.font='9px "Space Mono",monospace';ctx.textAlign='right';
+  for(var li=0;li<5;li++){
+    var lv=mn+(1-li/4)*rng, ly=p.t+(li/4)*(H-p.t-p.b);
+    ctx.fillText('$'+Math.round(lv).toLocaleString(),W-2,ly+3);
+  }
+  var up=data[data.length-1]>=data[0];
+  var buyColor=dark?'#00d68f':'#00a865';
+  var sellColor=dark?'#ff4d6d':'#e8335a';
+  var lineColor=up?buyColor:sellColor;
+  // Area fill
+  var gr=ctx.createLinearGradient(0,p.t,0,H);
+  if(up){gr.addColorStop(0,'rgba(0,214,143,.2)');gr.addColorStop(1,'rgba(0,214,143,.01)');}
+  else{gr.addColorStop(0,'rgba(255,77,109,.16)');gr.addColorStop(1,'rgba(255,77,109,.01)');}
+  ctx.beginPath();
+  ctx.moveTo(tx(0),H-p.b);
+  for(var i=0;i<data.length;i++) ctx.lineTo(tx(i),ty(data[i]));
+  ctx.lineTo(tx(data.length-1),H-p.b);
+  ctx.closePath();
+  ctx.fillStyle=gr;ctx.fill();
+  // Line
+  ctx.beginPath();
+  ctx.strokeStyle=lineColor;ctx.lineWidth=2.2;ctx.lineJoin='round';
+  ctx.shadowColor=lineColor;ctx.shadowBlur=7;
+  for(var j=0;j<data.length;j++){if(j===0)ctx.moveTo(tx(j),ty(data[j]));else ctx.lineTo(tx(j),ty(data[j]));}
+  ctx.stroke();ctx.shadowBlur=0;
+  // End dot
+  var lx=tx(data.length-1), ly2=ty(data[data.length-1]);
+  ctx.beginPath();ctx.arc(lx,ly2,5,0,Math.PI*2);
+  ctx.fillStyle=lineColor;ctx.shadowColor=lineColor;ctx.shadowBlur=12;
+  ctx.fill();ctx.shadowBlur=0;
+}
+
+/* ── AGENTS ── */
+function genAgents(n){
+  n=n||6;
+  var sigs=['BUY','SELL','HOLD'], as=Object.keys(PRICES);
+  var result=[];
+  for(var i=0;i<n;i++){
+    result.push({
+      name:ANAMES[i%ANAMES.length],icon:AICONS[i%AICONS.length],
+      asset:as[Math.floor(Math.random()*as.length)],
+      signal:sigs[Math.floor(Math.random()*3)],
+      confidence:Math.floor(Math.random()*25+72)
+    });
+  }
+  return result;
+}
+function renderAgents(arr, cid){
+  cid=cid||'agentsGrid';
+  var g=document.getElementById(cid);if(!g) return;
+  var h='';
+  arr.forEach(function(a){
+    var sc=a.signal==='BUY'?'buy-a':a.signal==='SELL'?'sell-a':'hold-a';
+    var scc=a.signal==='BUY'?'sb':a.signal==='SELL'?'ss':'sh';
+    var bc=a.signal==='BUY'?'var(--buy)':a.signal==='SELL'?'var(--sell)':'var(--hold)';
+    h+='<div class="acard '+sc+'" onclick="showToast(\'🤖 '+a.name+': '+a.signal+' '+a.asset+' — '+a.confidence+'%\')">'+
+      '<div class="aav"><i class="fas '+a.icon+'"></i></div>'+
+      '<div class="aname">'+a.name+'</div>'+
+      '<div class="aasset">'+a.asset+'</div>'+
+      '<div class="asig '+scc+'">'+a.signal+'</div>'+
+      '<div class="aconf">'+a.confidence+'% conf</div>'+
+      '<div class="abar"><div class="abar-f" style="width:'+a.confidence+'%;background:'+bc+'"></div></div>'+
+      '</div>';
+  });
+  g.innerHTML=h;
+}
+function renderAgentsPage(){renderAgents(genAgents(8),'agentsGrid2');}
+
+/* ── SIGNALS ── */
+function genSignals(){
+  var as=['BTC','ETH','SOL','AAPL','TSLA','NVDA','BNB','MSFT'];
+  var sg=['BUY','SELL','HOLD'],rk=['Low','Medium','High'];
+  return as.map(function(sym){
+    return{sym:sym,signal:sg[Math.floor(Math.random()*3)],
+      confidence:Math.floor(Math.random()*35+62),
+      risk:rk[Math.floor(Math.random()*3)],
+      strength:Math.floor(Math.random()*100),
+      price:PRICES[sym]*(0.95+Math.random()*0.1)};
+  });
+}
+function renderSignals(sigs, tid){
+  tid=tid||'sigBody';
+  var tb=document.getElementById(tid);if(!tb) return;
+  var h='';
+  sigs.forEach(function(s){
+    var sc=s.signal==='BUY'?'sb':s.signal==='SELL'?'ss':'sh';
+    var rc=s.risk==='Low'?'rlo':s.risk==='Medium'?'rmd':'rhi';
+    var col=COLORS[s.sym]||['#888','rgba(136,136,136,.15)'];
+    var bc=s.signal==='BUY'?'var(--buy)':s.signal==='SELL'?'var(--sell)':'var(--hold)';
+    var px=s.price.toFixed(2);
+    h+='<tr>'+
+      '<td><div class="acell"><div class="aico" style="background:'+col[1]+';color:'+col[0]+'">'+s.sym.slice(0,2)+'</div>'+
+      '<div><div style="font-weight:800">'+s.sym+'</div><div style="font-size:.62rem;color:var(--t3);font-family:var(--fd)">$'+px+'</div></div></div></td>'+
+      '<td><span class="sigbadge '+sc+'">'+s.signal+'</span></td>'+
+      '<td><div style="display:flex;align-items:center;gap:.35rem"><span style="font-family:var(--fd);font-weight:700;font-size:.74rem">'+s.confidence+'%</span><div class="cbar"><div class="cfill" style="width:'+s.confidence+'%;background:'+bc+'"></div></div></div></td>'+
+      '<td><span class="rkbadge '+rc+'">'+s.risk+'</span></td>'+
+      '<td><div class="cbar"><div class="cfill" style="width:'+s.strength+'%;background:var(--acc)"></div></div><span style="font-size:.62rem;color:var(--t3);margin-left:.25rem">'+s.strength+'%</span></td>'+
+      '<td><div class="actbs">'+
+        '<button class="btn btn-buy btn-sm" onclick="executeTrade(\''+s.sym+'\',\'BUY\','+px+')"><i class="fas fa-arrow-up"></i>Buy</button>'+
+        '<button class="btn btn-sell btn-sm" onclick="executeTrade(\''+s.sym+'\',\'SELL\','+px+')"><i class="fas fa-arrow-down"></i>Sell</button>'+
+      '</div></td>'+
+      '</tr>';
+  });
+  tb.innerHTML=h;
+}
+function renderSignalsPage(){renderSignals(genSignals(),'sigBody2');}
+
+/* ── HISTORY ── */
+function buildHistory(){
+  var dc=['BUY','SELL','HOLD'],as=Object.keys(PRICES);
+  var el=document.getElementById('histList');if(!el) return;
+  var h='';
+  for(var i=0;i<15;i++){
+    var dec=dc[Math.floor(Math.random()*3)];
+    var asset=as[Math.floor(Math.random()*as.length)];
+    var mins=Math.floor(Math.random()*1440)+1;
+    var chg=((Math.random()-0.4)*8).toFixed(2);
+    var scc=dec==='BUY'?'sb':dec==='SELL'?'ss':'sh';
+    var col=COLORS[asset]||['#888','rgba(136,136,136,.15)'];
+    var tm=mins<60?(mins+'m ago'):(Math.floor(mins/60)+'h ago');
+    h+='<div class="tlitem" data-type="'+dec.toLowerCase()+'">'+
+      '<div style="display:flex;align-items:center;gap:.5rem">'+
+        '<div class="aico" style="width:28px;height:28px;background:'+col[1]+';color:'+col[0]+'">'+asset.slice(0,2)+'</div>'+
+        '<div><div class="tla">'+asset+'</div><div class="tlt">'+tm+'</div></div>'+
+      '</div>'+
+      '<span class="sigbadge '+scc+'">'+dec+'</span>'+
+      '<span class="'+(chg>=0?'pos':'neg')+'" style="font-family:var(--fd);font-size:.75rem;font-weight:700">'+(chg>=0?'+':'')+chg+'%</span>'+
+      '</div>';
+  }
+  el.innerHTML=h;
+}
+
+/* ── ALL POSITIONS ── */
+function buildAllPositions(){
+  var el=document.getElementById('allPosBody');if(!el) return;
+  var as=['BTC','ETH','AAPL','NVDA','TSLA','SOL'];
+  var h='';
+  as.forEach(function(a){
+    var qty=(Math.random()*4+0.1).toFixed(2);
+    var avg=PRICES[a]*(0.88+Math.random()*0.12);
+    var cur=PRICES[a]*(0.95+Math.random()*0.1);
+    var pl=(cur-avg)*qty;
+    var plp=((cur-avg)/avg*100).toFixed(2);
+    h+='<tr>'+
+      '<td style="font-weight:800">'+a+'</td>'+
+      '<td>'+qty+'</td>'+
+      '<td>$'+avg.toFixed(0)+'</td>'+
+      '<td>$'+cur.toFixed(0)+'</td>'+
+      '<td class="'+(pl>=0?'pos':'neg')+'" style="font-weight:700">'+(pl>=0?'+':'')+'$'+Math.abs(pl).toFixed(0)+'</td>'+
+      '<td class="'+(plp>=0?'pos':'neg')+'" style="font-weight:700">'+(plp>=0?'+':'')+plp+'%</td>'+
+      '</tr>';
+  });
+  el.innerHTML=h;
+}
+
+/* ── LEARN MODAL ── */
+window.openLearn=function(k){
+  var d=LEARN[k];if(!d) return;
+  var t=document.getElementById('learnTitle');
+  var c=document.getElementById('learnContent');
+  if(t) t.innerHTML=d.t;
+  if(c) c.innerHTML=d.c;
+  var m=document.getElementById('learnModal');
+  if(m) m.classList.add('show');
+};
+
+/* ── SUBSCRIBE ── */
+var PLANS={
+  pro:{icon:'⚡',name:'Pro Plan',desc:'Full access to all Pro features — real-time signals, 8 AI agents, analytics',price:'₹499/month',color:'var(--acc)'},
+  elite:{icon:'👑',name:'Elite Plan',desc:'Everything unlocked — API, WhatsApp alerts, 1-on-1 support',price:'₹1,499/month',color:'var(--gold)'},
+  annual:{icon:'📅',name:'Pro Annual',desc:'Best value — Pro plan for a full year at 33% off',price:'₹3,999/year',color:'var(--buy)'}
+};
+window.openSubscribe=function(plan){
+  var p=PLANS[plan]||PLANS.pro;
+  setEl('subTitle','<i class="fas fa-crown" style="color:'+p.color+'"></i> '+p.name);
+  setEl('subIcon',p.icon);setEl('subPlanName',p.name);
+  setEl('subDesc',p.desc);setEl('subPrice',p.price);
+  var cb=document.getElementById('confirmSubBtn');
+  if(cb){cb.style.background=p.color==='var(--gold)'?'linear-gradient(135deg,var(--gold),#ff9500)':'';}
+  var m=document.getElementById('subscribeModal');if(m) m.classList.add('show');
+};
+
+/* ── FAQ TOGGLE ── */
+window.toggleFaq=function(el){
+  var item=el.closest('.faq-item');if(!item) return;
+  item.classList.toggle('open');
+};
+
+/* ── TRADE EXECUTION (global so signals table can call it) ── */
+window.executeTrade=function(asset, action, price){
+  var qty=parseFloat(document.getElementById('tradeQty').value)||0.1;
+  var total=(qty*parseFloat(price)).toFixed(2);
+  pendingTrade={asset:asset,action:action,price:price,qty:qty,total:total};
+  var isB=action==='BUY';
+  var mt=document.getElementById('tModalTitle');
+  var ci=document.getElementById('tConfIcon');
+  var ca=document.getElementById('tConfAsset');
+  var cd=document.getElementById('tConfDetails');
+  var ct=document.getElementById('tConfTotal');
+  var cb=document.getElementById('confirmTradeBtn');
+  if(mt) mt.innerHTML='<i class="fas fa-'+(isB?'arrow-up':'arrow-down')+'" style="color:'+(isB?'var(--buy)':'var(--sell)')+'></i> Confirm '+action;
+  if(ci) ci.textContent=isB?'📈':'📉';
+  if(ca) ca.textContent=asset;
+  if(cd) cd.textContent=action+' '+qty+' '+asset+' at $'+parseFloat(price).toLocaleString();
+  if(ct){ct.textContent='Total: $'+parseFloat(total).toLocaleString();ct.style.color=isB?'var(--buy)':'var(--sell)';}
+  if(cb){cb.className=isB?'btn btn-buy btn-sm':'btn btn-sell btn-sm';}
+  var m=document.getElementById('tradeModal');
+  if(m) m.classList.add('show');
+};
+window.showToast=function(msg,type){toast(msg,type);};
+
+/* ── SELECT ASSET ── */
+window.selectAsset=function(sym){
+  var ca=document.getElementById('chartAsset');
+  var ta=document.getElementById('tradeAsset');
+  if(ca) ca.value=sym;
+  if(ta) ta.value=sym;
+  chartData=genChartData(activeTF);
+  drawChart();
+  updateSummary();
+  toast('📊 Switched to '+sym);
+};
+
+/* ── REFRESH ALL DATA ── */
+function refreshAll(){
+  // Market cards
+  [
+    {v:'spxV',c:'spxC',base:5200,r:200,dp:0},
+    {v:'ndqV',c:'ndqC',base:18000,r:500,dp:0},
+    {v:'dxyV',c:'dxyC',base:102,r:4,dp:1},
+    {v:'vixV',c:'vixC',base:14,r:8,dp:1}
+  ].forEach(function(m){
+    var val=m.base+Math.random()*m.r;
+    var chg=((Math.random()-0.45)*3).toFixed(2);
+    setEl(m.v, val.toFixed(m.dp).replace(/\B(?=(\d{3})+(?!\d))/g,','));
+    var ce=document.getElementById(m.c);
+    if(ce){ce.textContent=(chg>=0?'+':'')+chg+'%';ce.className='mchg '+(chg>=0?'pos':'neg');}
+  });
+  // Stats
+  var pv=(Math.random()*150+200).toFixed(1);
+  setEl('ptfV','$'+pv+'k');setEl('ptfV2','$'+pv+'k');setEl('sbPtf','$'+pv+'k');
+  var pnl=(Math.random()-0.35)*8000;
+  var pe=document.getElementById('pnlV');
+  if(pe){pe.textContent=(pnl>=0?'+':'')+'$'+Math.abs(pnl).toFixed(0);pe.className='sval '+(pnl>=0?'pos':'neg');}
+  setEl('winV',Math.floor(Math.random()*25+60)+'%');
+  setEl('sigCnt',Math.floor(Math.random()*40+20));
+  var sd=(Math.random()-0.4)*5000;
+  var se=document.getElementById('sbChg');
+  if(se){se.textContent=(sd>=0?'▲ +$':'▼ -$')+Math.abs(sd).toFixed(0)+' today';se.style.color=sd>=0?'var(--buy)':'var(--sell)';}
+  // Sentiment gauge
+  var sent=Math.floor(Math.random()*100);
+  var ga=document.getElementById('gaugeArc');
+  if(ga) ga.setAttribute('stroke-dashoffset',(157-(sent/100)*157).toString());
+  var gn=document.getElementById('gaugeNeedle');
+  if(gn) gn.setAttribute('transform','rotate('+(((sent/100)*180)-90)+',60,60)');
+  var sl=document.getElementById('sentLabel');
+  if(sl){
+    var stx=sent>66?'Bullish':sent<33?'Bearish':'Neutral';
+    var scl=sent>66?'var(--buy)':sent<33?'var(--sell)':'var(--hold)';
+    sl.textContent=stx+' '+sent+'%';sl.style.color=scl;
+  }
+  // Watchlist
+  buildWatchlist();
+  // Recent trades
+  buildRecentTrades();
+  // Positions
+  buildPositions();
+  // Signals
+  renderSignals(genSignals(),'sigBody');
+  // Agents
+  renderAgents(genAgents(6),'agentsGrid');
+  // Chart price
+  var caEl=document.getElementById('chartAsset');
+  if(caEl){
+    var asset=caEl.value;
+    var np=PRICES[asset]*(0.98+Math.random()*0.04);
+    var nc=((Math.random()-0.4)*6).toFixed(2);
+    setEl('chartPrice','$'+np.toFixed(np>100?0:2));
+    var cce=document.getElementById('chartChg');
+    if(cce){cce.textContent=(nc>=0?'+':'')+nc+'%';cce.className='cchg '+(nc>=0?'up':'dn');}
+  }
+  updateSummary();
+}
+function setEl(id,v){var e=document.getElementById(id);if(e) e.textContent=v;}
+
+function buildWatchlist(){
+  var el=document.getElementById('watchlistEl');if(!el) return;
+  var keys=Object.keys(PRICES).slice(0,6);
+  var h='';
+  keys.forEach(function(sym){
+    var p=PRICES[sym]*(0.95+Math.random()*0.1);
+    var c=((Math.random()-0.45)*6).toFixed(2);
+    var col=COLORS[sym]||['#888','#eee'];
+    h+='<div class="wchip" onclick="selectAsset(\''+sym+'\')">'+
+      '<div class="wsym" style="color:'+col[0]+'">'+sym+'</div>'+
+      '<div class="wpr">$'+p.toFixed(sym==='BTC'?0:2)+'</div>'+
+      '<div class="wch '+(c>=0?'pos':'neg')+'">'+(c>=0?'+':'')+c+'%</div>'+
+      '</div>';
+  });
+  el.innerHTML=h;
+}
+function buildRecentTrades(){
+  var el=document.getElementById('recentTrades');if(!el) return;
+  var dc=['BUY','SELL','HOLD'],as=Object.keys(PRICES);
+  var h='';
+  for(var i=0;i<5;i++){
+    var dec=dc[Math.floor(Math.random()*3)];
+    var asset=as[Math.floor(Math.random()*as.length)];
+    var mn=Math.floor(Math.random()*59)+1;
+    var c=((Math.random()-0.4)*8).toFixed(2);
+    var scc=dec==='BUY'?'sb':dec==='SELL'?'ss':'sh';
+    h+='<div class="tlitem">'+
+      '<div><div class="tla">'+asset+'</div><div class="tlt">'+mn+'m ago</div></div>'+
+      '<span class="sigbadge '+scc+'">'+dec+'</span>'+
+      '<span class="'+(c>=0?'pos':'neg')+'" style="font-family:var(--fd);font-size:.74rem;font-weight:700">'+(c>=0?'+':'')+c+'%</span>'+
+      '</div>';
+  }
+  el.innerHTML=h;
+}
+function buildPositions(){
+  var pb=document.getElementById('posBody');if(!pb) return;
+  var as=['BTC','ETH','AAPL','NVDA'];
+  var h='';
+  as.forEach(function(a){
+    var qty=(Math.random()*4+0.1).toFixed(2);
+    var pr=PRICES[a]*(0.9+Math.random()*0.2);
+    var pl=(Math.random()-0.35)*2000;
+    h+='<tr>'+
+      '<td style="font-weight:800">'+a+'</td>'+
+      '<td>'+qty+'</td>'+
+      '<td>$'+pr.toFixed(0)+'</td>'+
+      '<td class="'+(pl>=0?'pos':'neg')+'" style="font-weight:700">'+(pl>=0?'+':'')+'$'+Math.abs(pl).toFixed(0)+'</td>'+
+      '</tr>';
+  });
+  pb.innerHTML=h;
+}
+
+/* ── TRADE SUMMARY ── */
+function updateSummary(){
+  var ae=document.getElementById('tradeAsset');if(!ae) return;
+  var asset=ae.value;
+  var qty=parseFloat(document.getElementById('tradeQty').value)||0;
+  var price=PRICES[asset]*(0.99+Math.random()*0.02);
+  var total=qty*price, fee=total*0.001;
+  setEl('sumPrice','$'+price.toFixed(price>100?2:4));
+  setEl('sumQty',qty.toString());
+  setEl('sumFee','$'+fee.toFixed(2));
+  var te=document.getElementById('sumTotal');
+  if(te){te.textContent='$'+(total+fee).toFixed(2);te.className='v '+(tradeMode==='buy'?'pos':'neg');}
+  // Update asset span
+  var sp=document.getElementById('tAssetSpan');
+  if(sp) sp.textContent=asset+'/USD';
+}
+
+/* ── TRADE MODE ── */
+function setTradeMode(m){
+  tradeMode=m;
+  var bt=document.getElementById('buyTab'), st=document.getElementById('sellTab');
+  var eb=document.getElementById('execBtn');
+  if(bt) bt.classList.toggle('active', m==='buy');
+  if(st) st.classList.toggle('active', m==='sell');
+  if(eb){
+    eb.className='execbtn'+(m==='sell'?' sell':'');
+    eb.innerHTML='<i class="fas fa-'+(m==='buy'?'cart-plus':'cart-arrow-down')+'"></i> Place '+m.toUpperCase()+' Order';
+  }
+  var th=document.getElementById('tradeHint');
+  if(th) th.textContent=m==='buy'?'BUY = asset khareedna. Price badhegi toh profit! Sirf demo hai.':'SELL = asset bechna. Price girne se pehle becho. Sirf demo!';
+  updateSummary();
+}
+
+/* ── ACTIVITY FEED ── */
+function addActivity(msg, color){
+  color=color||'var(--acc)';
+  var f=document.getElementById('actFeed');if(!f) return;
+  var d=document.createElement('div');
+  d.className='aitem';
+  d.innerHTML='<div class="adot" style="background:'+color+';box-shadow:0 0 5px '+color+'"></div><span>'+msg+'</span><span class="atime">'+new Date().toLocaleTimeString()+'</span>';
+  f.insertBefore(d, f.firstChild);
+  while(f.children.length>9) f.removeChild(f.lastChild);
+}
+function seedActivity(){
+  setTimeout(function(){
+    addActivity('🤖 AI analysis completed for 8 assets','var(--buy)');
+    addActivity('📊 Market signals updated','var(--acc)');
+    addActivity('⚡ 3 new opportunities detected','var(--hold)');
+    addActivity('🔄 Portfolio synced','var(--acc)');
+  }, 300);
+}
+
+/* ── AUTO UPDATES ── */
+function startAutoUpdates(){
+  // Live chart update
+  setInterval(function(){
+    if(!chartData.length) return;
+    var last=chartData[chartData.length-1];
+    chartData.push(last*(1+(Math.random()-0.492)*0.008));
+    if(chartData.length>90) chartData.shift();
+    drawChart();
+  }, 1600);
+  // Auto refresh market data
+  setInterval(function(){
+    if(autoRefresh){
+      refreshAll();
+      addActivity('🔄 Market data auto-refreshed','var(--acc)');
+    }
+  }, 30000);
+}
+
+/* ── NAVIGATION ── */
+function navTo(page){
+  curPage=page;
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  var pg=document.getElementById('page-'+page);
+  if(pg) pg.classList.add('active');
+  // Update all nav elements
+  document.querySelectorAll('[data-page]').forEach(function(l){l.classList.remove('active');});
+  document.querySelectorAll('[data-page="'+page+'"]').forEach(function(l){l.classList.add('active');});
+  // Close sidebar on mobile
+  closeSidebar();
+  // Lazy load page data
+  if(page==='signals') renderSignalsPage();
+  if(page==='agents') renderAgentsPage();
+  if(page==='portfolio') buildAllPositions();
+  if(page==='history') buildHistory();
+  // Scroll to top
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function closeSidebar(){
+  var sb=document.getElementById('sidebar');
+  var ov=document.getElementById('sbo');
+  var hb=document.getElementById('hamburgerBtn');
+  if(sb) sb.classList.remove('open');
+  if(ov) ov.classList.remove('show');
+  if(hb) hb.setAttribute('aria-expanded','false');
+}
+
+/* ── CHAT ── */
+var CHATDB={
+  'btc kharidein ya nahi?':'📊 AI analysis: BTC abhi <strong>BULLISH</strong> signal de raha hai! Confidence 78%. Lekin hamesha khud research karo. 0.1 BTC se start karo + stop loss zaroor lagao!',
+  'trading kaise shuru karein?':'🎓 3 Steps:<br>1️⃣ <strong>Seekho</strong> — Learn section check karo<br>2️⃣ <strong>Demo practice</strong> — Abhi karo!<br>3️⃣ <strong>Small start</strong> — Risk control karo<br><br>Patience = profit! 💪',
+  'stop loss kya hota hai?':'🛡️ Stop Loss = <strong>automatic protection!</strong><br><br>BUY $100 → SL set $90<br>Price $90 pe → auto SELL!<br>Max loss = $10 (fixed) ✅<br><br><strong>Hamesha use karo!</strong>',
+  'risk kaise kam karein?':'⚠️ 5 Golden Rules:<br>1️⃣ 2% Rule — max 2% per trade<br>2️⃣ Diversify — alag assets<br>3️⃣ Stop Loss — HAMESHA lagao<br>4️⃣ Emotion se door raho<br>5️⃣ Profit lock karo'
+};
+function sendChat(){
+  var inp=document.getElementById('chatInput');
+  var msgs=document.getElementById('chatMsgs');
+  if(!inp||!msgs) return;
+  var msg=inp.value.trim();if(!msg) return;
+  inp.value='';
+  var t=new Date().toLocaleTimeString();
+  msgs.innerHTML+='<div class="cbub user">'+msg+'<div class="cbt">'+t+'</div></div>';
+  msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(function(){
+    var key=msg.toLowerCase();
+    var resp=CHATDB[key];
+    if(!resp){
+      var defs=['🤖 Great question! Specific asset ke baare mein puchein?','💡 Diversification always better hota hai!','📈 Discipline aur patience — trading ka real secret!','🎯 Stop loss aur risk management — sabse pehle seekho!'];
+      resp=defs[Math.floor(Math.random()*defs.length)];
+    }
+    msgs.innerHTML+='<div class="cbub ai">'+resp+'<div class="cbt">AgentAI · '+new Date().toLocaleTimeString()+'</div></div>';
+    msgs.scrollTop=msgs.scrollHeight;
+  }, 750);
+}
+
+/* ── ALL EVENTS ── */
+function setupEvents(){
+
+  // ── All nav links (sidebar, desktop, mobile) ──
+  document.querySelectorAll('[data-page]').forEach(function(el){
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      navTo(el.dataset.page);
+    });
+  });
+
+  // ── Hamburger ──
+  var hb=document.getElementById('hamburgerBtn');
+  var sb=document.getElementById('sidebar');
+  var ov=document.getElementById('sbo');
+  if(hb){
+    hb.addEventListener('click', function(){
+      var open=sb.classList.toggle('open');
+      ov.classList.toggle('show', open);
+      hb.setAttribute('aria-expanded', String(open));
+    });
+  }
+  if(ov) ov.addEventListener('click', closeSidebar);
+
+  // ── Theme toggle ──
+  function toggleTheme(){
+    /* FIX C: read current theme from localStorage, not from body class */
+    var cur=localStorage.getItem('at_theme')||'dark';
+    applyTheme(cur==='dark'?'light':'dark');
+  }
+  var thBtn=document.getElementById('themeBtn');
+  if(thBtn) thBtn.addEventListener('click', toggleTheme);
+  var dmTgl2=document.getElementById('dmToggle');
+  if(dmTgl2) dmTgl2.addEventListener('click', toggleTheme);
+
+  // ── Run Analysis ──
+  var runBtn=document.getElementById('runBtn');
+  if(runBtn){
+    runBtn.addEventListener('click', function(){
+      if(analyzing) return;
+      analyzing=true; runBtn.disabled=true;
+      runBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Analyzing…';
+      setTimeout(function(){
+        chartData=genChartData(activeTF);
+        drawChart(); refreshAll();
+        addActivity('✅ AI analysis complete — signals updated','var(--buy)');
+        toast('✅ AI Analysis done! All signals updated.','buy');
+        analyzing=false; runBtn.disabled=false;
+        runBtn.innerHTML='<i class="fas fa-rotate"></i> Run AI Analysis';
+      }, 1500);
+    });
+  }
+
+  // ── Refresh buttons ──
+  var ra=document.getElementById('refreshAgentsBtn');
+  if(ra) ra.addEventListener('click', function(){renderAgents(genAgents(6),'agentsGrid');toast('🤖 Agents refreshed!');});
+  var ra2=document.getElementById('refreshAgentsBtn2');
+  if(ra2) ra2.addEventListener('click', function(){renderAgentsPage();toast('🤖 All agents refreshed!');});
+  var rs=document.getElementById('refreshSigBtn');
+  if(rs) rs.addEventListener('click', function(){renderSignalsPage();toast('📊 Signals refreshed!');});
+
+  // ── Timeframe bar ──
+  var tfBar=document.getElementById('tfBar');
+  if(tfBar){
+    tfBar.addEventListener('click', function(e){
+      var b=e.target.closest('.tfb');if(!b) return;
+      document.querySelectorAll('.tfb').forEach(function(x){x.classList.remove('active');});
+      b.classList.add('active');
+      activeTF=b.dataset.tf;
+      chartData=genChartData(activeTF);
+      drawChart();
+      toast('📊 Timeframe: '+activeTF);
+    });
+  }
+
+  // ── Chart asset selector ──
+  var caEl=document.getElementById('chartAsset');
+  if(caEl){
+    caEl.addEventListener('change', function(){
+      chartData=genChartData(activeTF); drawChart();
+      var ta=document.getElementById('tradeAsset');
+      if(ta) ta.value=caEl.value;
+      updateSummary();
+    });
+  }
+  var cBuy=document.getElementById('cBuyBtn');
+  if(cBuy) cBuy.addEventListener('click', function(){
+    var asset=document.getElementById('chartAsset').value;
+    executeTrade(asset,'BUY',PRICES[asset]);
+  });
+  var cSell=document.getElementById('cSellBtn');
+  if(cSell) cSell.addEventListener('click', function(){
+    var asset=document.getElementById('chartAsset').value;
+    executeTrade(asset,'SELL',PRICES[asset]);
+  });
+
+  // ── Trade tabs ──
+  var bt=document.getElementById('buyTab');
+  if(bt) bt.addEventListener('click', function(){setTradeMode('buy');});
+  var st=document.getElementById('sellTab');
+  if(st) st.addEventListener('click', function(){setTradeMode('sell');});
+
+  // ── Trade asset / qty ──
+  var ta=document.getElementById('tradeAsset');
+  if(ta) ta.addEventListener('change', function(){
+    var ca=document.getElementById('chartAsset');
+    if(ca) ca.value=ta.value;
+    chartData=genChartData(activeTF);drawChart();updateSummary();
+  });
+  var tq=document.getElementById('tradeQty');
+  if(tq) tq.addEventListener('input', updateSummary);
+
+  // ── Presets ──
+  document.querySelectorAll('.preset').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.preset').forEach(function(x){x.classList.remove('sel');});
+      b.classList.add('sel');
+      var tqEl=document.getElementById('tradeQty');
+      if(tqEl){tqEl.value=b.dataset.qty;updateSummary();}
+    });
+  });
+
+  // ── Execute button ──
+  var eb=document.getElementById('execBtn');
+  if(eb){
+    eb.addEventListener('click', function(){
+      var asset=document.getElementById('tradeAsset').value;
+      executeTrade(asset, tradeMode.toUpperCase(), PRICES[asset]);
+    });
+  }
+
+  // ── Trade modal ──
+  var ctb=document.getElementById('confirmTradeBtn');
+  if(ctb){
+    ctb.addEventListener('click', function(){
+      var m=document.getElementById('tradeModal');
+      if(m) m.classList.remove('show');
+      if(pendingTrade){
+        var isB=pendingTrade.action==='BUY';
+        addActivity(
+          (isB?'📈':'📉')+' '+pendingTrade.action+' '+pendingTrade.qty+' '+pendingTrade.asset+' @ $'+parseFloat(pendingTrade.price).toLocaleString(),
+          isB?'var(--buy)':'var(--sell)'
+        );
+        toast('✅ '+pendingTrade.action+' '+pendingTrade.qty+' '+pendingTrade.asset+' executed! (demo)', isB?'buy':'sell');
+      }
+    });
+  }
+  var cancelTrade=document.getElementById('cancelTradeBtn');
+  if(cancelTrade) cancelTrade.addEventListener('click', function(){
+    var m=document.getElementById('tradeModal');if(m) m.classList.remove('show');
+  });
+
+  // ── Search (desktop only visible) ──
+  var hs=document.getElementById('headerSearch');
+  if(hs){
+    var st2;
+    hs.addEventListener('input', function(){
+      clearTimeout(st2);
+      var v=hs.value;
+      st2=setTimeout(function(){if(v.length>1) toast('🔍 Searching: '+v);}, 450);
+    });
+  }
+
+  // ── Notifications ──
+  var nb=document.getElementById('notifBtn');
+  if(nb) nb.addEventListener('click', function(){toast('🔔 No new notifications (demo)');});
+
+  // ── FINAL FIX: User dropdown with position:fixed to escape sticky header stacking context ──
+  var ub=document.getElementById('userBtn'), ddm=document.getElementById('ddMenu');
+  if(ub && ddm){
+
+    function positionDropdown(){
+      /* Calculate exact position using getBoundingClientRect */
+      var rect=ub.getBoundingClientRect();
+      ddm.style.top=(rect.bottom + 6)+'px';
+      /* Align right edge of dropdown to right edge of button */
+      ddm.style.right=(window.innerWidth - rect.right)+'px';
+      ddm.style.left='auto';
+    }
+
+    function openDropdown(){
+      positionDropdown();
+      ddm.classList.add('show');
+    }
+    function closeDropdown(){
+      ddm.classList.remove('show');
+    }
+
+    ub.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(ddm.classList.contains('show')){closeDropdown();}
+      else{openDropdown();}
+    });
+    /* Touch devices */
+    ub.addEventListener('touchend', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      if(ddm.classList.contains('show')){closeDropdown();}
+      else{openDropdown();}
+    });
+
+    /* Close on outside interaction */
+    document.addEventListener('click', function(e){
+      if(!ddm.contains(e.target) && e.target!==ub) closeDropdown();
+    });
+    document.addEventListener('touchstart', function(e){
+      if(!ddm.contains(e.target) && e.target!==ub) closeDropdown();
+    }, {passive:true});
+
+    /* Reposition if window scrolls or resizes (since fixed can drift) */
+    window.addEventListener('scroll', function(){if(ddm.classList.contains('show')) positionDropdown();}, {passive:true});
+    window.addEventListener('resize', function(){if(ddm.classList.contains('show')) positionDropdown();});
+  }
+
+  // ── Auth modals ──
+  function openModal(id){var m=document.getElementById(id);if(m) m.classList.add('show');}
+  function closeModal(id){var m=document.getElementById(id);if(m) m.classList.remove('show');}
+  var lBtn=document.getElementById('loginBtn');
+  if(lBtn) lBtn.addEventListener('click', function(){ddm.classList.remove('show');openModal('loginModal');});
+  var rBtn=document.getElementById('registerBtn');
+  if(rBtn) rBtn.addEventListener('click', function(){ddm.classList.remove('show');openModal('registerModal');});
+  var clb=document.getElementById('closeLoginBtn');
+  if(clb) clb.addEventListener('click', function(){closeModal('loginModal');});
+  var crb=document.getElementById('closeRegBtn');
+  if(crb) crb.addEventListener('click', function(){closeModal('registerModal');});
+  var slb=document.getElementById('submitLogin');
+  if(slb) slb.addEventListener('click', function(){
+    currentUser={email:document.getElementById('loginEmail').value||'demo'};
+    localStorage.setItem('at_user',JSON.stringify(currentUser));
+    closeModal('loginModal');updateAuthUI();toast('✅ Logged in successfully!','buy');
+  });
+  var srb=document.getElementById('submitReg');
+  if(srb) srb.addEventListener('click', function(){
+    currentUser={email:document.getElementById('regEmail').value||'demo'};
+    localStorage.setItem('at_user',JSON.stringify(currentUser));
+    closeModal('registerModal');updateAuthUI();toast('🎉 Welcome to AgentTrade Pro!','buy');
+  });
+  var loBtn=document.getElementById('logoutBtn');
+  if(loBtn) loBtn.addEventListener('click', function(){
+    currentUser=null;localStorage.removeItem('at_user');
+    if(ddm) ddm.classList.remove('show');updateAuthUI();toast('👋 Logged out successfully');
+  });
+
+  // ── Terms (now goes to page, not modal) ──
+  var tsb=document.getElementById('termsSbBtn');
+  if(tsb) tsb.addEventListener('click', function(e){e.preventDefault();navTo('terms');closeSidebar();});
+  var ctm=document.getElementById('closeTermsBtn');
+  if(ctm) ctm.addEventListener('click', function(){closeModal('termsModal');});
+
+  // ── Learn ──
+  var clm=document.getElementById('closeLearnBtn');
+  if(clm) clm.addEventListener('click', function(){closeModal('learnModal');});
+
+  // ── Subscribe modal ──
+  var csb2=document.getElementById('closeSubBtn');
+  if(csb2) csb2.addEventListener('click', function(){closeModal('subscribeModal');});
+  var confSub=document.getElementById('confirmSubBtn');
+  if(confSub) confSub.addEventListener('click', function(){
+    closeModal('subscribeModal');
+    toast('🚀 Razorpay payment gateway — backend connect hone ke baad live hoga!','buy');
+    addActivity('💳 Subscription upgrade initiated','var(--gold)');
+  });
+
+  // ── FAQ accordion ──
+  document.addEventListener('click', function(e){
+    var q=e.target.closest('.faq-q');
+    if(!q) return;
+    var item=q.closest('.faq-item');if(!item) return;
+    document.querySelectorAll('.faq-item.open').forEach(function(o){if(o!==item) o.classList.remove('open');});
+    item.classList.toggle('open');
+  });
+
+  // ── Settings ──
+  var sp=document.getElementById('settingsPanel');
+  function openSettings(){if(sp) sp.classList.add('open');if(ddm) ddm.classList.remove('show');}
+  function closeSettings(){if(sp) sp.classList.remove('open');}
+  var sob=document.getElementById('settingsOpenBtn');
+  if(sob) sob.addEventListener('click', openSettings);
+  var ssb=document.getElementById('settingsSbBtn');
+  if(ssb) ssb.addEventListener('click', function(e){e.preventDefault();openSettings();closeSidebar();});
+  var csb=document.getElementById('closeSettingsBtn');
+  if(csb) csb.addEventListener('click', closeSettings);
+  var svb=document.getElementById('saveSettingsBtn');
+  if(svb) svb.addEventListener('click', function(){closeSettings();toast('⚙️ Settings saved!');});
+
+  // Settings toggles
+  var nt=document.getElementById('notifToggle');
+  if(nt) nt.addEventListener('click', function(){
+    notifications=!notifications;
+    nt.classList.toggle('on',notifications);
+    localStorage.setItem('at_notif',String(notifications));
+    toast(notifications?'🔔 Notifications ON':'🔕 Notifications OFF');
+  });
+  var art=document.getElementById('arToggle');
+  if(art) art.addEventListener('click', function(){
+    autoRefresh=!autoRefresh;
+    art.classList.toggle('on',autoRefresh);
+    toast(autoRefresh?'🔄 Auto refresh ON':'⏸️ Auto refresh OFF');
+  });
+  var bgt=document.getElementById('begToggle');
+  if(bgt) bgt.addEventListener('click', function(){
+    beginnerMode=!beginnerMode;
+    bgt.classList.toggle('on',beginnerMode);
+    var bb=document.getElementById('begBanner');
+    if(bb) bb.style.display=beginnerMode?'flex':'none';
+    toast(beginnerMode?'👋 Beginner mode ON':'🎓 Beginner mode OFF');
+  });
+
+  // ── Dismiss banner ──
+  var db=document.getElementById('dismissBtn');
+  if(db) db.addEventListener('click', function(){
+    var bb=document.getElementById('begBanner');
+    if(bb) bb.style.display='none';
+    localStorage.setItem('at_dimHelp','1');
+  });
+  if(localStorage.getItem('at_dimHelp')){
+    var bbEl=document.getElementById('begBanner');
+    if(bbEl) bbEl.style.display='none';
+  }
+
+  // ── Scroll top ──
+  var stEl=document.getElementById('scrollTop');
+  if(stEl){
+    window.addEventListener('scroll', function(){stEl.classList.toggle('vis', window.scrollY>250);});
+    stEl.addEventListener('click', function(){window.scrollTo({top:0,behavior:'smooth'});});
+  }
+
+  // ── Chat ──
+  var fab=document.getElementById('chatFab');
+  var cwin=document.getElementById('chatWin');
+  if(fab && cwin){
+    fab.addEventListener('click', function(){
+      var isOpen=cwin.classList.toggle('open');
+      /* FIX B: hide FAB when chat is open to prevent overlap on mobile */
+      fab.classList.toggle('chat-active', isOpen);
+    });
+  }
+  var cc=document.getElementById('chatClose');
+  if(cc) cc.addEventListener('click', function(){
+    if(cwin) cwin.classList.remove('open');
+    if(fab) fab.classList.remove('chat-active');
+  });
+  var csd=document.getElementById('chatSend');
+  if(csd) csd.addEventListener('click', sendChat);
+  var cinp=document.getElementById('chatInput');
+  if(cinp) cinp.addEventListener('keydown', function(e){if(e.key==='Enter') sendChat();});
+  document.querySelectorAll('.csug').forEach(function(s){
+    s.addEventListener('click', function(){
+      var ci=document.getElementById('chatInput');
+      if(ci){ci.value=s.dataset.q;sendChat();}
+    });
+  });
+
+  // ── History filters ──
+  document.querySelectorAll('.fbtn').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.fbtn').forEach(function(x){x.classList.remove('active');});
+      b.classList.add('active');
+      var f=b.dataset.filter;
+      document.querySelectorAll('#histList .tlitem').forEach(function(item){
+        item.style.display=(f==='all'||item.dataset.type===f)?'flex':'none';
+      });
+    });
+  });
+
+  // ── ESC key ──
+  window.addEventListener('keydown', function(e){
+    if(e.key==='Escape'){
+      document.querySelectorAll('.mbg').forEach(function(m){m.classList.remove('show');});
+      var spEl=document.getElementById('settingsPanel');
+      if(spEl) spEl.classList.remove('open');
+      var cwinEl=document.getElementById('chatWin');
+      if(cwinEl) cwinEl.classList.remove('open');
+      closeSidebar();
+    }
+  });
+
+  // ── Close modals on backdrop click ──
+  document.querySelectorAll('.mbg').forEach(function(m){
+    m.addEventListener('click', function(e){
+      if(e.target===m) m.classList.remove('show');
+    });
+  });
+
+  // ── Chart resize ──
+  window.addEventListener('resize', function(){
+    clearTimeout(window._resizeT);
+    window._resizeT=setTimeout(drawChart, 90);
+  });
+}
+
+})(); // END IIFE
+</script>
+</body>
+</html>
